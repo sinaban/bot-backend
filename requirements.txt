@@ -1,0 +1,13 @@
+Flask
+Flask-RESTful
+Flask-JWT
+Flask-SQLAlchemy
+uwsgi
+psycopg2
+pandas
+kucoin-futures-python
+ccxt
+redis
+flask-swagger
+flask-swagger-ui
+flask-cors
