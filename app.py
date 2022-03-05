@@ -14,7 +14,7 @@ from flasgger import Swagger
 
 
 from security import authenticate, identity
-from resources.user import UserRegister
+from resources.user import UserRegister,ReturnUser
 from resources.item import Item, ItemList
 from resources.bot_prop import Bot_prop, BotsList
 from resources.store import Store, StoreList
@@ -84,6 +84,7 @@ api.add_resource(Klines, '/klines/<string:botname>')
 api.add_resource(LastBalance,'/overallbalance/<string:botname>')
 api.add_resource(pair_whitelist, '/pairwhitelist/<string:botname>')
 api.add_resource(close_trades, '/closetrades/<string:botname>')
+api.add_resource(ReturnUser, '/auth/me')
 
 
 api.add_resource(UserRegister, '/register')
