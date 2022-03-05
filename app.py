@@ -1,3 +1,4 @@
+from datetime import timedelta
 from distutils.command.config import config
 import os
 from urllib.parse import  quote
@@ -63,6 +64,7 @@ swagger = Swagger(app,
 
 
 jwt = JWT(app, authenticate, identity)  # /auth
+app.config['JWT_EXPIRATION_DELTA'] =timedelta(minutes=60)
 
 from db import db
 db.init_app(app)
