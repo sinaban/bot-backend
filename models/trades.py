@@ -1,6 +1,7 @@
 from db import db
 import json
 import datetime
+from exchanges import kucoin_pairs
 
 class Trades(db.Model):
     __tablename__ = 'trades'
@@ -69,6 +70,8 @@ class Trades(db.Model):
             "take_profit" : self.take_profit, 
             "dynamic_stoploss" : self.dynamic_stoploss, 
             "strategy" : self.strategy, 
+            "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
+
         }
 
     @classmethod
@@ -162,6 +165,7 @@ class ClosedTrades(db.Model):
             "take_profit" : self.o_take_profit, 
             "dynamic_stoploss" : self.o_dynamic_stoploss, 
             "strategy" : self.o_strategy, 
+            "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
         }
 
     @classmethod

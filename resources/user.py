@@ -37,6 +37,7 @@ class ReturnUser(Resource):
 
 
 
-        return {"username": "sina"}, 200
+        return {"data" :{"username": "sina"}}, 200
+        
 
         return {"user": "User not found"}, 400   

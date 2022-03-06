@@ -6,6 +6,7 @@ from kucoin_futures.client import Trade,Market
 from models import redisMgr as myRedis  
 import logging
 import ccxt.base.exchange
+from exchanges import kucoin_pairs
 
 
 class kucoin_futures_ex():
@@ -23,18 +24,15 @@ class kucoin_futures_ex():
 
     def get_realtimeticker(self,pair):
         price=myRedis.getPrice(pair)
-        print('%s = %s'%(pair, price))
-        logging.debug('%s = %s',pair,price)
-        return price
+        
+        return price ,  kucoin_pairs.futures_pairs[pair]
         # try:
         #     return client.get_ticker(pair).get('price')
         # except:
         #     print('get price error')
     def get_realtimeticker_ASK(self,pair):
         price=myRedis.getAskPrice(pair)
-        print('ask price:%s = %s'%(pair, price))
-        logging.debug('ask price:%s = %s',pair,price)
-        return price
+        return price,kucoin_pairs.futures_pairs[pair]
 
     def create_orderid(self,price,pair,size,side,lever):
         return "under structure"
@@ -113,7 +111,7 @@ class kucoin_futures_ex():
         client = Market(url='https://api-futures.kucoin.com')
         klines = client.get_kline_data(pair,timeframe,begin_t,end_t)
 
-        return klines
+        return kucoin_pairs.futures_pairs[pair], klines
     
 
 
@@ -143,6 +141,8 @@ class kucoin_futures_ex():
         # response=get_keys(side)
         client = self.get_client()
         Response=client.get_all_position()
+        for i in range(len(Response)):
+            Response[i]['FormalName'] = kucoin_pairs.futures_pairs[Response[i]['symbol']]
         return Response
 
     def get_ohlc(self,pair,timeframe):
