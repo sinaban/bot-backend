@@ -42,7 +42,7 @@ class OpenPositions(Resource):
                     response = ex.get_open_positions()
                     # return jsonify(response)
                     # Symbol=response[0]['symbol']
-                    return {'botname': botname , 'response' : response}
+                    return {'botname': botname , 'response' : response} , 200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 404
             else:
@@ -107,7 +107,7 @@ class LastBidprice(Resource):
                     response = ex.get_realtimeticker(data['pair'])
                     # return jsonify(response)
                     # Symbol=response[0]['symbol']
-                    return {'pair': data['pair'] , 'LastBidPrice' : response}
+                    return {'pair': data['pair'] , 'LastBidPrice' : response} , 200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 404
         return {'message': 'Item not found'}, 404
@@ -167,7 +167,7 @@ class LastAskprice(Resource):
                     response = ex.get_realtimeticker_ASK(data['pair'])
                     # return jsonify(response)
                     # Symbol=response[0]['symbol']
-                    return {'pair': data['pair'] , 'LastAskPrice' : response}
+                    return {'pair': data['pair'] , 'LastAskPrice' : response} , 200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 404
         return {'message': 'Item not found'}, 404
@@ -253,7 +253,7 @@ class Klines(Resource):
                 try:
                     ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
                     response = ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
-                    return {'pair': data['pair'] , 'klines' : response}
+                    return {'pair': data['pair'] , 'klines' : response} , 200
                 except Exception as e:
                     return {'Exception': "{}".format(e)}, 404
         return {'message': 'Item not found'}, 404

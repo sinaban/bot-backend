@@ -30,43 +30,13 @@ class UserRegister(Resource):
         return {"message": "User created successfully."}, 201
 
 class ReturnUser(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('username',
-        type=str,
-        required=True,
-        help="This field cannot be blank."
-    )
-    parser.add_argument('password',
-        type=str,
-        required=True,
-        help="This field cannot be blank."
-    ) 
+
 
     # @jwt_required()
-    def post(self):
-                """
-        check username and pass
-        ---
-        tags:
-        - exchange data
-        parameters:
-          - in: path
-            name: username
-            type: string
-            required: true
-          - in: path
-            name: passwword
-            type: string
-            required: true
-        responses:
-          200:
+    def get(self):
 
-                  
 
-        """
-        data = ReturnUser.parser.parse_args()
 
-        if  UserModel.find_by_username(data['username']):
-            return {"username": data['username']}, 200
+        return {"username": "sina"}, 200
 
         return {"user": "User not found"}, 400   
