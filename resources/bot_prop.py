@@ -57,7 +57,7 @@ class Bot_prop(Resource):
         bot = Bot_propModel.find_by_name(name)
         if bot:
             return bot.json() , 200
-        return {'message': 'Item not found'}, 404
+        return {'message': 'Item not found'}, 201
     @jwt_required()
     def post(self, name):
         """

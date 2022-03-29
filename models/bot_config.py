@@ -10,6 +10,12 @@ _bidPrice= "bestBidPrice"
 _askPrice= "bestAskPrice"
 _pairs = "pairs"
 
+def save_to_file(**kwargs):
+     # pr=json.load(kwargs)
+     f = open("test.py", "w")
+     f.write(str(kwargs))
+     f.close()
+
 def updatePrice(pair, price) -> None:
      redis_client.hset(pair, _bidPrice, str(price))
 

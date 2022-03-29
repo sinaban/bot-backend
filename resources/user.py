@@ -32,7 +32,7 @@ class UserRegister(Resource):
 class ReturnUser(Resource):
 
 
-    # @jwt_required()
+    @jwt_required()
     def get(self):
 
 

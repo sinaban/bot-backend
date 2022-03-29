@@ -19,7 +19,7 @@ from resources.item import Item, ItemList
 from resources.bot_prop import Bot_prop, BotsList
 from resources.store import Store, StoreList
 from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance
-from resources.bot_config import pair_whitelist
+from resources.bot_config import pair_whitelist ,Indicators
 from resources.trades import close_trades
 
 
@@ -85,6 +85,7 @@ api.add_resource(LastBalance,'/overallbalance/<string:botname>')
 api.add_resource(pair_whitelist, '/pairwhitelist/<string:botname>')
 api.add_resource(close_trades, '/closetrades/<string:botname>')
 api.add_resource(ReturnUser, '/auth/me')
+api.add_resource(Indicators, '/indicators/<string:botname>')
 
 
 api.add_resource(UserRegister, '/register')

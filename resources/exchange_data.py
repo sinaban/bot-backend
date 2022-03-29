@@ -45,10 +45,10 @@ class OpenPositions(Resource):
                     # Symbol=response[0]['symbol']
                     return {'botname': botname , 'response' : response} , 200
                 except Exception as e:
-                    return {'message': "{}".format(e)}, 404
+                    return {'message': "{}".format(e)}, 201
             else:
-                return {'message': 'no such market {} defined'.format(bot.market_type)}, 404
-        return {'message': 'Item not found'}, 404
+                return {'message': 'no such market {} defined'.format(bot.market_type)}, 201
+        return {'message': 'Item not found'}, 201
     
 
 
@@ -110,8 +110,8 @@ class LastBidprice(Resource):
                     # Symbol=response[0]['symbol']
                     return {'pair': data['pair'] , 'LastBidPrice' : response[0], 'FormalName' : response[1]} , 200
                 except Exception as e:
-                    return {'message': "{}".format(e)}, 404
-        return {'message': 'Item not found'}, 404
+                    return {'message': "{}".format(e)}, 201
+        return {'message': 'Item not found'}, 201
 
 class LastAskprice(Resource):
     parser = reqparse.RequestParser()
@@ -170,8 +170,8 @@ class LastAskprice(Resource):
                     # Symbol=response[0]['symbol']
                     return {'pair': data['pair'] , 'LastAskPrice' : response[0] , 'FormalName' : response[1]} , 200
                 except Exception as e:
-                    return {'message': "{}".format(e)}, 404
-        return {'message': 'Item not found'}, 404
+                    return {'message': "{}".format(e)}, 201
+        return {'message': 'Item not found'}, 201
 
 
 class Klines(Resource):
@@ -256,8 +256,8 @@ class Klines(Resource):
                     response = ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
                     return {'pair': data['pair'] , 'FormalName' : response[0], 'klines' : response[1]} , 200
                 except Exception as e:
-                    return {'Exception': "{}".format(e)}, 404
-        return {'message': 'Item not found'}, 404
+                    return {'Exception': "{}".format(e)}, 201
+        return {'message': 'Item not found'}, 201
 
 class LastBalance(Resource):
     parser = reqparse.RequestParser()
@@ -316,6 +316,6 @@ class LastBalance(Resource):
                     # Symbol=response[0]['symbol']
                     return {'currency': data['currency'] , 'latest balance' : response} ,200
                 except Exception as e:
-                    return {'message': "{}".format(e)}, 404
-        return {'message': 'Item not found'}, 404
+                    return {'message': "{}".format(e)}, 201
+        return {'message': 'Item not found'}, 201
 
