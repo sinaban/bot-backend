@@ -1,4 +1,4 @@
-{
+config ={
     "pair_whitelist": {
         "ADAUSDTM":{
             "formal_name":"ADA/USDT",
@@ -74,26 +74,29 @@
 "oldPair":{
 
 },
-"statice_size":true,
+"statice_size":True,
 "currency":"USDT",
 "dryrun_config" :{
-    "dryrun_enable":true,
+    "dryrun_enable":True,
     "dryrun_wallet":1000
 },
-
+"timeframe" : 15, 
+"dynamic_stoploss_ratio": 8,
+"dynamic_take_profit_ratio" : 1.5,
+"dynamic_trailing_number" : 0.3,
 "trailing_stop_loss_params":{     
 
     "stopLoss":0.016,
-    "stoploss_enable":true,
-    "trailing_stop_enable": true,
+    "stoploss_enable":True,
+    "trailing_stop_enable": True,
     "trainling_number": 0.0001,
-    "offset_enable": true,
+    "offset_enable": True,
     "offset_number": 0.001,
 
-    "dynamic_stoploss_enable":false,
-    "take_profit_enable":false,
-    "dynamic_trailing_stoploss_offset_enable":true,
-    "dynamic_trainling_number_enable":false
+    "dynamic_stoploss_enable":False,
+    "take_profit_enable":False,
+    "dynamic_trailing_stoploss_offset_enable":True,
+    "dynamic_trainling_number_enable":False
 
 
 },
@@ -109,7 +112,7 @@
     "user": "root",
     "password": "ro0t!@#",
     "host": "localhost",
-    "raise_on_warnings": true
+    "raise_on_warnings": True
 
 },
 "leverage":
@@ -122,16 +125,7 @@
     "stoploss":"market"
 },
 
-"exchange_data":{
-    "exchange_name" : "kucoin",
-    "apiKey": "61ae29ac1324a20001c25070",
-    "secret": "3f8c92d8-b632-4b66-850e-58a625c3d6f6", 
-    "password": "Atr3@1500",
-    "enableRateLimit": true ,
-    "options": {
-        "defaultType": "future"
-    }
-}
+
 
 
 }

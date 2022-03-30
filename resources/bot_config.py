@@ -2,12 +2,38 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models import bot_config
 from indicators.ta_indicators import Indicator, indicator_properties
+from indicators import config_template
 from models.bot_prop import Bot_propModel
+import json
 
 
 
 
+class Config(Resource):
+    @jwt_required()
+    def get(self,botname):
+        """
+        get all indicators
+        It is neccessary to send access token
+        ---
+        tags:
+        - indicators
 
+
+        responses:          
+          200:
+            description: return all existed idicators
+
+            schema:
+              id: User
+              properties:
+                category:
+                  type: string
+                  description: technical indicators category                  
+
+
+        """
+        return {'configs': config_template.config } , 200  
 
 class Indicators(Resource):
   parser = reqparse.RequestParser()
@@ -31,32 +57,31 @@ class Indicators(Resource):
       responses:          
         200:
           description: return all existed idicators
-          'BBANDS': {'category' : 'Overlap Studies Functions', 'function' : '', 'CandleNumber':'0', 'returns' : 'upperband, middleband, lowerband' , 'IndicatorName': 'BBANDS', 'description': 'Bollinger Bands', 'params': {'suffix': '', 'CandlePricePoint': 'close', 'timeperiod': 5, 'nbdevup': 2, 'nbdevdn': 2, 'matype': 0}},
 
-          schema:
-            id: User
-            properties:
-              category:
-                type: string
-                description: technical indicators category                  
-              function:
-                type: json
-                description: mathematical function which will apply on indicators
-              CandleNumber:
-                type: integer
-                description: it returns last indicators number    
-              returns:
-                type: indicator return value
-                description: it can be more than one element if it is one element shows real or inetegr and if it is more than one elements show return indicators
-              descrption:
-                type: string
-                description: it describe what is the indicator
-              params:
-                type: json
-                description: it is neccessary parameter for define a indicators and shows the default parameters 
-              suffix:
-                type: integer
-                description: for each indicator we need suffix because it can be more than one type of one indicator 
+        schema:
+          id: properties
+          properties:
+          category:
+            type: string
+            description: technical indicators category                  
+          function:
+            type: json
+            description: mathematical function which will apply on indicators
+          CandleNumber:
+            type: integer
+            description: it returns last indicators number    
+          returns:
+            type: indicator return value
+            description: it can be more than one element if it is one element shows real or inetegr and if it is more than one elements show return indicators
+          descrption:
+            type: string
+            description: it describe what is the indicator
+          params:
+            type: json
+            description: it is neccessary parameter for define a indicators and shows the default parameters 
+          suffix:
+            type: integer
+            description: for each indicator we need suffix because it can be more than one type of one indicator 
                   
                                 
 
@@ -67,18 +92,18 @@ class Indicators(Resource):
       return {'indicators': indicator_properties } , 200
 
   @jwt_required()
-  def post(self, botname):
+  def post(self, botid):
 
       """
       post indicators which is neccessary to define new strategy
       It is neccessary to send access token
       ---
       tags:
-      - bot
+      - bot_config
       parameters:
         - in: path
-          name: botname
-          type: string
+          name: botid
+          type: integer
           required: true
         - in: path
           indicators: indicators
@@ -100,8 +125,14 @@ class Indicators(Resource):
       """
 
 
-      if Bot_propModel.find_by_name(botname):            
+      if Bot_propModel.find_by_id(botid):            
         data = Indicators.parser.parse_args()
+        res=json.loads(bot_config.get_bot_config(botid))
+        res['buy_open_conditions']= data['indicators'][0]
+        print((res['buy_open_conditions']))
+        bot_config.set_bot_config(botid,**res)
+
+
         bot_config.save_to_file(**data)
         return {"action" : "confirmed"}
         try:

@@ -44,6 +44,22 @@ def get_pair_whitelist(botname) -> dict:
           return pairList[botname]
      return None
 
+def set_indicators(botname) -> dict:
+     redis_client.hmset()
+     pairList = json.loads(redis_client.get('bots'))
+     if pairList[botname] is not None:
+          # print(pairList)
+          return pairList[botname]
+     return None
+
+def get_bot_config(botid) :
+     resp = redis_client.hget("bots:config",botid)     
+     return resp
+
+def set_bot_config(botid,**kwargs) :
+     resp = redis_client.hset("bots:config",botid,json.dumps(kwargs))     
+     return resp
+
 #debug mode
 if __name__ == "__main__":
      # getPairList()
