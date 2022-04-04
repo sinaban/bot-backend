@@ -4,8 +4,137 @@ from models import bot_config
 from indicators.ta_indicators import Indicator, indicator_properties
 from indicators import config_template
 from models.bot_prop import Bot_propModel
-import json
+import json,ast
 
+class Strategy(Resource):
+  parser = reqparse.RequestParser()
+  parser.add_argument('buy_open_conditions',
+      required=True,
+      type = str,
+      help="This field cannot be blank."
+  )
+  parser.add_argument('sell_open_conditions',
+      required=True,
+      type = str,
+      help="This field cannot be blank."
+  )
+  parser.add_argument('buy_close_conditions',
+      required=True,
+      type = str,
+      help="This field cannot be blank."
+  )
+  parser.add_argument('sell_close_conditions',
+      required=True,
+      type = str,
+      help="This field cannot be blank."
+  )  
+  @jwt_required()
+  def get(self, botid):
+      """
+      get all indicators
+      It is neccessary to send access token
+      ---
+      tags:
+      - indicators
+
+
+      responses:          
+        200:
+          description: return all existed idicators
+
+        schema:
+          id: properties
+          properties:
+          category:
+            type: string
+            description: technical indicators category                  
+          function:
+            type: json
+            description: mathematical function which will apply on indicators
+          CandleNumber:
+            type: integer
+            description: it returns last indicators number    
+          returns:
+            type: indicator return value
+            description: it can be more than one element if it is one element shows real or inetegr and if it is more than one elements show return indicators
+          descrption:
+            type: string
+            description: it describe what is the indicator
+          params:
+            type: json
+            description: it is neccessary parameter for define a indicators and shows the default parameters 
+          suffix:
+            type: integer
+            description: for each indicator we need suffix because it can be more than one type of one indicator 
+                  
+                                
+
+                
+
+      """
+      ret={}
+      res=json.loads(bot_config.get_bot_config(botid))
+      # print(type(res))
+      
+      ret['buy_open_conditions'] = res['buy_open_conditions']
+      ret['buy_close_conditions'] = res['buy_close_conditions']
+      ret['sell_open_conditions'] = res['sell_open_conditions']
+      ret['sell_close_conditions'] = res['sell_close_conditions']
+      # print(ret)
+      return ret , 200
+
+  @jwt_required()
+  def post(self, botid):
+
+      """
+      post indicators which is neccessary to define new strategy
+      It is neccessary to send access token
+      ---
+      tags:
+      - bot_config
+      parameters:
+        - in: path
+          name: botid
+          type: integer
+          required: true
+        - in: path
+          indicators: indicators
+          type: json
+          required: true
+
+      responses:
+        200:
+          description: indicators saved
+          schema:
+            id: User
+            properties:
+              name:
+                type: string
+                description: bot name
+
+                
+
+      """
+
+
+      if Bot_propModel.find_by_id(botid):            
+        data = Strategy.parser.parse_args()
+        res=json.loads(bot_config.get_bot_config(botid))
+        print(data)
+        res['buy_open_conditions']= data['buy_open_conditions']
+        res['buy_close_conditions']= data['buy_close_conditions']
+        res['sell_open_conditions']= data['sell_open_conditions']
+        res['sell_close_conditions']= data['sell_close_conditions']
+        # print((res['buy_open_conditions']))
+        bot_config.set_bot_config(botid,**res)
+
+
+        bot_config.save_to_file(**data)
+        return {"action" : "confirmed"}
+
+      else: 
+
+        return {"message": "there is no such bot name."}, 400
 
 class Config(Resource):
   parser = reqparse.RequestParser()
@@ -37,7 +166,7 @@ class Config(Resource):
 
 
       """
-      print(json.loads(bot_config.get_bot_config(botid)))
+      # print(json.loads(bot_config.get_bot_config(botid)))
       return {'configs': json.loads(bot_config.get_bot_config(botid)) } , 200  
 
   @jwt_required()
@@ -65,8 +194,10 @@ class Config(Resource):
       """
       if Bot_propModel.find_by_id(botid):            
         data = Config.parser.parse_args()
-        
-        bot_config.set_bot_config(botid,**data)
+        # print(type((data['configs'][0])))
+        config= ast.literal_eval(data['configs'][0])#converts str to dict
+        # config= json.load(data['configs'][0])
+        bot_config.set_bot_config(botid,**config)
 
         return {"action" : "confirmed"}
 
@@ -190,8 +321,8 @@ class Indicators(Resource):
       if Bot_propModel.find_by_id(botid):            
         data = Indicators.parser.parse_args()
         res=json.loads(bot_config.get_bot_config(botid))
-        res['buy_open_conditions']= data['indicators'][0]
-        print((res['buy_open_conditions']))
+        res['indicators']= data['indicators'][0]
+        # print((res['indicators']))
         bot_config.set_bot_config(botid,**res)
 
 
