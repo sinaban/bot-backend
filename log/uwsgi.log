@@ -23603,3 +23603,106 @@ spawned uWSGI worker 5 (pid: 542142, cores: 8)
 spawned uWSGI worker 6 (pid: 542149, cores: 8)
 spawned uWSGI worker 7 (pid: 542156, cores: 8)
 spawned uWSGI worker 8 (pid: 542159, cores: 8)
+SIGINT/SIGTERM received...killing workers...
+worker 2 buried after 0 seconds
+worker 7 buried after 0 seconds
+worker 8 buried after 0 seconds
+Mon Apr  4 13:26:41 2022 - received message 0 from emperor
+worker 3 buried after 0 seconds
+worker 6 buried after 0 seconds
+worker 1 buried after 1 seconds
+worker 4 buried after 1 seconds
+worker 5 buried after 1 seconds
+goodbye to uWSGI.
+*** Starting uWSGI 2.0.20 (64bit) on [Mon Apr  4 13:26:45 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+ *** WARNING: you have enabled harakiri without post buffering. Slow upload could be rejected on post-unbuffered webservers *** 
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /var/www/html/items-rest/socket.sock fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+PEP 405 virtualenv detected: /var/www/html/items-rest/venv
+Set PythonHome to /var/www/html/items-rest/venv
+Python main interpreter initialized at 0x5603ebba1430
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1313856 bytes (1283 KB) for 64 cores
+*** Operational MODE: preforking+threaded ***
+added /var/www/html/items-rest/ to pythonpath.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x5603ebba1430 pid: 555349 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 555349)
+spawned uWSGI worker 1 (pid: 555351, cores: 8)
+spawned uWSGI worker 2 (pid: 555354, cores: 8)
+spawned uWSGI worker 3 (pid: 555359, cores: 8)
+spawned uWSGI worker 4 (pid: 555367, cores: 8)
+spawned uWSGI worker 5 (pid: 555369, cores: 8)
+spawned uWSGI worker 6 (pid: 555384, cores: 8)
+spawned uWSGI worker 7 (pid: 555385, cores: 8)
+spawned uWSGI worker 8 (pid: 555393, cores: 8)
+*** Starting uWSGI 2.0.20 (64bit) on [Mon Apr  4 13:28:11 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+ *** WARNING: you have enabled harakiri without post buffering. Slow upload could be rejected on post-unbuffered webservers *** 
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /var/www/html/items-rest/socket.sock fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+PEP 405 virtualenv detected: /var/www/html/items-rest/venv
+Set PythonHome to /var/www/html/items-rest/venv
+Python main interpreter initialized at 0x555887590430
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1313856 bytes (1283 KB) for 64 cores
+*** Operational MODE: preforking+threaded ***
+added /var/www/html/items-rest/ to pythonpath.
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x555887590430 pid: 555466 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 555466)
+spawned uWSGI worker 1 (pid: 555483, cores: 8)
+spawned uWSGI worker 2 (pid: 555489, cores: 8)
+spawned uWSGI worker 3 (pid: 555494, cores: 8)
+spawned uWSGI worker 4 (pid: 555500, cores: 8)
+spawned uWSGI worker 5 (pid: 555510, cores: 8)
+spawned uWSGI worker 6 (pid: 555516, cores: 8)
+spawned uWSGI worker 7 (pid: 555524, cores: 8)
+spawned uWSGI worker 8 (pid: 555532, cores: 8)

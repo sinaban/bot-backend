@@ -61,6 +61,18 @@ def set_bot_config(botid,**kwargs) -> bool :
      resp = redis_client.hset("bots:config",botid,json.dumps(kwargs))     
      return resp
 
+def get_bot_commands(botid) -> dict :
+     resp = redis_client.hget("bots:command",botid)     
+     return resp
+
+def set_bot_commands(botid,**kwargs) -> bool :
+     resp = redis_client.hset("bots:command",botid,json.dumps(kwargs))     
+     return resp
+
+def get_bot_status(botid) -> dict :
+     resp = redis_client.hget("bots:status",botid)     
+     return resp
+
 #debug mode
 if __name__ == "__main__":
      # getPairList()
