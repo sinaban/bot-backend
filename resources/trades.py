@@ -14,7 +14,7 @@ class close_trades(Resource):
     )
 
     # @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         Get all closed positions in limit number 
         It is neccessary to send access token
@@ -23,7 +23,7 @@ class close_trades(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            name: botid
             type: string
             required: true
           - in: path
@@ -42,13 +42,13 @@ class close_trades(Resource):
         """
         data = close_trades.parser.parse_args()
 
-        response = ClosedTrades.find_by_name(botname,data['limit'])
+        response = ClosedTrades.find_by_id(botid,data['limit'])
         # response = trades.find_by_name(botname,"real_tav_slope_atr_5_15min_2",data['limit']) #the right one is this
         # for row in ClosedTrades.query.filter(ClosedTrades.o_strategy=="real_tav_slope_atr_5_15min_2").order_by(ClosedTrades.o_close_date.desc()).limit(data['limit']):
         #   if row['o_exchange'] == 'kucoin':
         #     row['FormalName'] = kucoin_pairs.futures_pairs[row['o_pair']]
         if response:
-          return {'message': [row.json() for row in ClosedTrades.query.filter(ClosedTrades.o_strategy==botname).order_by(ClosedTrades.o_close_date.desc()).limit(data['limit'])]} , 200
+          return {'message': [row.json() for row in ClosedTrades.query.filter(ClosedTrades.o_strategy==response[0]).order_by(ClosedTrades.o_close_date.desc()).limit(data['limit'])]} , 200
           return response.json() , 200
         return {'message': 'Item not found'}, 201
 

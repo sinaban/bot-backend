@@ -2,6 +2,7 @@ from db import db
 import json
 import datetime
 from exchanges import kucoin_pairs
+from models.bot_prop import Bot_propModel
 
 class Trades(db.Model):
     __tablename__ = 'trades'
@@ -171,6 +172,11 @@ class ClosedTrades(db.Model):
     @classmethod
     def find_by_name(cls,strategy,limit):
         return cls.query.filter_by(o_strategy=strategy).limit(limit)
+
+    @classmethod
+    def find_by_id(cls,botid,limit):
+        bot = Bot_propModel.find_by_id(botid)
+        return bot.json()['name'] ,cls.query.filter_by(o_strategy=bot.json()['name']).limit(limit)
 
     def save_to_db(self):
         db.session.add(self)

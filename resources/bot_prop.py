@@ -32,7 +32,7 @@ class Bot_prop(Resource):
         help="An item with name market_type can't be empty"
     )
     @jwt_required()
-    def get(self, name):
+    def get(self, botid):
         """
         Get bot characteristics
         It is neccessary to send access token
@@ -41,7 +41,7 @@ class Bot_prop(Resource):
         - bot
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
         responses:
@@ -54,12 +54,12 @@ class Bot_prop(Resource):
                   type: string
                   description: The name of the user
         """
-        bot = Bot_propModel.find_by_name(name)
+        bot = Bot_propModel.find_by_id(botid)
         if bot:
             return bot.json() , 200
         return {'message': 'Item not found'}, 201
     @jwt_required()
-    def post(self, name):
+    def post(self, botid):
         """
         Register new bot
         It is neccessary to send access token
@@ -68,7 +68,7 @@ class Bot_prop(Resource):
         - bot
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
           - in: path
@@ -113,12 +113,12 @@ class Bot_prop(Resource):
                   
 
         """
-        if Bot_propModel.find_by_name(name):
-            return {'message': "An item with name '{}' already exists.".format(name)}, 400
+        if Bot_propModel.find_by_id(botid):
+            return {'message': "An item with name '{}' already exists.".format(botid)}, 400
 
         data = Bot_prop.parser.parse_args()
 
-        bot = Bot_propModel(name, **data)
+        bot = Bot_propModel(botid, **data)
 
         try:
             bot.save_to_db()
@@ -127,20 +127,20 @@ class Bot_prop(Resource):
 
         return bot.json(), 200
     @jwt_required()
-    def delete(self, name):
-        bot = Bot_propModel.find_by_name(name)
+    def delete(self, botid):
+        bot = Bot_propModel.find_by_name(botid)
         if bot:
             bot.delete_from_db()
 
         return {'message': 'bot deleted'}
     @jwt_required()
-    def put(self, name):
+    def put(self, botid):
         data = Bot_prop.parser.parse_args()
 
-        item = Bot_propModel.find_by_name(name)
+        item = Bot_propModel.find_by_name(botid)
 
         if item is None:
-            item = Bot_propModel(name, **data)
+            item = Bot_propModel(botid, **data)
         else:
             item.price = data['price']
 

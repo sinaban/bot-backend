@@ -7,13 +7,75 @@ from models.bot_prop import Bot_propModel
 import json
 
 
-
-
 class Config(Resource):
-    @jwt_required()
-    def get(self,botname):
+  parser = reqparse.RequestParser()
+  parser.add_argument('configs',
+      required=True,
+      action="append",
+      help="This field cannot be blank."
+  )
+  @jwt_required()
+  def get(self,botid):
+      """
+      get all configs for bot
+      It is neccessary to send access token
+      ---
+      tags:
+      - indicators
+
+
+      responses:          
+        200:
+          description: return all existed idicators
+
+          schema:
+            id: User
+            properties:
+              category:
+                type: string
+                description: technical indicators category                  
+
+
+      """
+      print(json.loads(bot_config.get_bot_config(botid)))
+      return {'configs': json.loads(bot_config.get_bot_config(botid)) } , 200  
+
+  @jwt_required()
+  def post(self,botid):
+      """
+      get all configs for bot
+      It is neccessary to send access token
+      ---
+      tags:
+      - indicators
+
+
+      responses:          
+        200:
+          description: return all existed idicators
+
+          schema:
+            id: User
+            properties:
+              category:
+                type: string
+                description: technical indicators category                  
+
+
+      """
+      if Bot_propModel.find_by_id(botid):            
+        data = Config.parser.parse_args()
+        
+        bot_config.set_bot_config(botid,**data)
+
+        return {"action" : "confirmed"}
+
+class TempConfig(Resource):
+
+  @jwt_required()
+  def get(self):
         """
-        get all indicators
+        get all configs
         It is neccessary to send access token
         ---
         tags:
@@ -34,7 +96,7 @@ class Config(Resource):
 
         """
         return {'configs': config_template.config } , 200  
-
+     
 class Indicators(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('indicators',
@@ -45,7 +107,7 @@ class Indicators(Resource):
 
 
   @jwt_required()
-  def get(self):
+  def get(self, botid):
       """
       get all indicators
       It is neccessary to send access token
@@ -148,7 +210,7 @@ class pair_whitelist(Resource):
     parser = reqparse.RequestParser()
     
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         Get pair white list with its attributes
         It is neccessary to send access token
@@ -157,7 +219,7 @@ class pair_whitelist(Resource):
         - bot_config
         parameters:
           - in: path
-            name: botname
+            name: botid
             type: string
             required: true
         responses:
@@ -171,12 +233,12 @@ class pair_whitelist(Resource):
                   description: The name of the user
                   bot properties: Steven Wilson
         """
-        pair_whitelist = bot_config.get_pair_whitelist(botname)
+        pair_whitelist = bot_config.get_pair_whitelist(botid)
         if pair_whitelist:
             return {'pair_whitelist': pair_whitelist} , 200
         return {'message': 'Item not found'}, 201
     @jwt_required()
-    def post(self, name):
+    def post(self, botid):
       pass
       """
         Register new bot
@@ -186,7 +248,7 @@ class pair_whitelist(Resource):
         - bot
         parameters:
           - in: path
-            name: botname
+            name: botid
             type: string
             required: true
           - in: path
@@ -245,7 +307,7 @@ class pair_whitelist(Resource):
 
         # return bot.json(), 201
     @jwt_required()
-    def delete(self, name):
+    def delete(self, botid):
       pass
         # bot = Bot_propModel.find_by_name(name)
         # if bot:
@@ -253,7 +315,7 @@ class pair_whitelist(Resource):
 
         # return {'message': 'bot deleted'}
     @jwt_required()
-    def put(self, name):
+    def put(self, botid):
       pass
         # data = Bot_prop.parser.parse_args()
 

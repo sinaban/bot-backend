@@ -37,11 +37,12 @@ def getAskPrice(pair) -> float:
           return (float)(price)
      return None
 
-def get_pair_whitelist(botname) -> dict:
-     pairList = json.loads(redis_client.get('bots'))
-     if pairList[botname] is not None:
+def get_pair_whitelist(botid) -> dict:
+     # resp = redis_client.hget("bots:config",botid)     
+     pairList = json.loads(redis_client.hget("bots:config",botid))
+     if pairList['pair_whitelist'] is not None:
           # print(pairList)
-          return pairList[botname]
+          return pairList['pair_whitelist']
      return None
 
 def set_indicators(botname) -> dict:
@@ -52,11 +53,11 @@ def set_indicators(botname) -> dict:
           return pairList[botname]
      return None
 
-def get_bot_config(botid) :
+def get_bot_config(botid) -> dict :
      resp = redis_client.hget("bots:config",botid)     
      return resp
 
-def set_bot_config(botid,**kwargs) :
+def set_bot_config(botid,**kwargs) -> bool :
      resp = redis_client.hset("bots:config",botid,json.dumps(kwargs))     
      return resp
 

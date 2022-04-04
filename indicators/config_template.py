@@ -100,21 +100,9 @@ config ={
 
 
 },
-"telegram": {
 
-    "bot_token": "5251825245:AAH7SxY5ECMMAnFWlXwUfypV8v8eP_nItzg",
-    "chat_id": "5177660605"
-},
 "strategy":"testdb", 
-"database":
-{
-    "database":"bot_trades",
-    "user": "root",
-    "password": "ro0t!@#",
-    "host": "localhost",
-    "raise_on_warnings": True
 
-},
 "leverage":
 {
     "leverage_number":"3"

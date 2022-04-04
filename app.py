@@ -18,7 +18,7 @@ from resources.item import Item, ItemList
 from resources.bot_prop import Bot_prop, BotsList
 from resources.store import Store, StoreList
 from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance
-from resources.bot_config import pair_whitelist ,Indicators,Config
+from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config
 from resources.trades import close_trades
 
 
@@ -74,18 +74,20 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(StoreList, '/stores')
 
-api.add_resource(Bot_prop, '/bot/<string:name>')
+api.add_resource(Bot_prop, '/bot/<int:botid>')
 api.add_resource(BotsList, '/bots')
-api.add_resource(OpenPositions, '/openpositions/<string:botname>')
-api.add_resource(LastBidprice, '/lastbidprice/<string:botname>')
-api.add_resource(LastAskprice, '/lastaskprice/<string:botname>')
-api.add_resource(Klines, '/klines/<string:botname>')
-api.add_resource(LastBalance,'/overallbalance/<string:botname>')
-api.add_resource(pair_whitelist, '/pairwhitelist/<string:botname>')
-api.add_resource(close_trades, '/closetrades/<string:botname>')
+api.add_resource(OpenPositions, '/openpositions/<int:botid>')
+api.add_resource(LastBidprice, '/lastbidprice/<int:botid>')
+api.add_resource(LastAskprice, '/lastaskprice/<int:botid>')
+api.add_resource(Klines, '/klines/<int:botid>')
+api.add_resource(LastBalance,'/overallbalance/<int:botid>')
+api.add_resource(pair_whitelist, '/pairwhitelist/<int:botid>')
+api.add_resource(close_trades, '/closetrades/<int:botid>')
 api.add_resource(ReturnUser, '/auth/me')
 api.add_resource(Indicators, '/indicators/<int:botid>')
-api.add_resource(Config, '/config/<string:botname>')
+api.add_resource(TempConfig, '/tempconfig')
+api.add_resource(Config, '/config/<int:botid>')
+
 
 
 api.add_resource(UserRegister, '/register')

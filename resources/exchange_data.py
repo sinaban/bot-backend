@@ -13,7 +13,7 @@ class OpenPositions(Resource):
 
 
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         get open position list
         It is neccessary to send access token
@@ -22,7 +22,7 @@ class OpenPositions(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
 
@@ -33,7 +33,7 @@ class OpenPositions(Resource):
                   
 
         """
-        bot = Bot_propModel.find_by_name(botname)
+        bot = Bot_propModel.find_by_id(botid)
         # return {'message': " '{}' ".format(bot.exchange_name)}
         if bot.exchange_name=='kucoin':
             if bot.market_type =='futures':
@@ -43,7 +43,7 @@ class OpenPositions(Resource):
                     response = ex.get_open_positions()
                     # return jsonify(response)
                     # Symbol=response[0]['symbol']
-                    return {'botname': botname , 'response' : response} , 200
+                    return {'botid': botid , 'response' : response} , 200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 201
             else:
@@ -62,7 +62,7 @@ class LastBidprice(Resource):
     )
 
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         get last bid price
         It is neccessary to send access token
@@ -71,7 +71,7 @@ class LastBidprice(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            id: botid
             type: string
             required: true
           - in: path
@@ -96,7 +96,7 @@ class LastBidprice(Resource):
                   
 
         """
-        bot = Bot_propModel.find_by_name(botname)
+        bot = Bot_propModel.find_by_id(botid)
         # return {'message': " '{}' ".format(bot.exchange_name)}
         data = LastBidprice.parser.parse_args()
 
@@ -122,7 +122,7 @@ class LastAskprice(Resource):
     )
 
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         get last ask price
         It is neccessary to send access token
@@ -131,7 +131,7 @@ class LastAskprice(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
           - in: path
@@ -156,7 +156,7 @@ class LastAskprice(Resource):
                   
 
         """
-        bot = Bot_propModel.find_by_name(botname)
+        bot = Bot_propModel.find_by_id(botid)
         # return {'message': " '{}' ".format(bot.exchange_name)}
         data = LastBidprice.parser.parse_args()
 
@@ -198,7 +198,7 @@ class Klines(Resource):
     )
 
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         get klines
         It is neccessary to send access token
@@ -207,7 +207,7 @@ class Klines(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
           - in: path
@@ -244,7 +244,7 @@ class Klines(Resource):
                   
 
         """
-        bot = Bot_propModel.find_by_name(botname)
+        bot = Bot_propModel.find_by_id(botid)
         # return {'message': " '{}' ".format(bot.exchange_name)}
         data = Klines.parser.parse_args()
 
@@ -268,7 +268,7 @@ class LastBalance(Resource):
     )
 
     @jwt_required()
-    def get(self, botname):
+    def get(self, botid):
         """
         get lastest balance base on sent currency 
         It is neccessary to send access token
@@ -277,7 +277,7 @@ class LastBalance(Resource):
         - exchange data
         parameters:
           - in: path
-            name: botname
+            botid: botid
             type: string
             required: true
           - in: path
@@ -302,7 +302,7 @@ class LastBalance(Resource):
                   
 
         """
-        bot = Bot_propModel.find_by_name(botname)
+        bot = Bot_propModel.find_by_id(botid)
         # return {'message': " '{}' ".format(bot.exchange_name)}
         data = LastBalance.parser.parse_args()
 
