@@ -59,7 +59,7 @@ class Bot_prop(Resource):
             return bot.json() , 200
         return {'message': 'Item not found'}, 201
     @jwt_required()
-    def post(self, botid):
+    def post(self, botname):
         """
         Register new bot
         It is neccessary to send access token
@@ -113,12 +113,12 @@ class Bot_prop(Resource):
                   
 
         """
-        if Bot_propModel.find_by_id(botid):
+        if Bot_propModel.find_by_name(botname):
             return {'message': "An item with name '{}' already exists.".format(botid)}, 400
 
         data = Bot_prop.parser.parse_args()
 
-        bot = Bot_propModel(botid, **data)
+        bot = Bot_propModel(botname, **data)
 
         try:
             bot.save_to_db()

@@ -250,8 +250,9 @@ class Strategy(Resource):
 
       if Bot_propModel.find_by_id(botid):            
         data = Strategy.parser.parse_args()
-        res=json.loads(bot_config.get_bot_config(botid))
+        # res=json.loads(bot_config.get_bot_config(botid))
         # print(data)
+        res={}
         res['buy_open_conditions']= data['buy_open_conditions']
         res['buy_close_conditions']= data['buy_close_conditions']
         res['sell_open_conditions']= data['sell_open_conditions']

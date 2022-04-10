@@ -74,7 +74,7 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(StoreList, '/stores')
 
-api.add_resource(Bot_prop, '/bot/<int:botid>')
+api.add_resource(Bot_prop, '/bot/<string:botname>')
 api.add_resource(BotsList, '/bots')
 api.add_resource(OpenPositions, '/openpositions/<int:botid>')
 api.add_resource(LastBidprice, '/lastbidprice/<int:botid>')
