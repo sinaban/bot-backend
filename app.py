@@ -15,10 +15,10 @@ from flasgger import Swagger
 from security import authenticate, identity
 from resources.user import UserRegister,ReturnUser
 from resources.item import Item, ItemList
-from resources.bot_prop import Bot_prop, BotsList
+from resources.bot_prop import Bot_prop, BotsList,Bot_prop_byid
 from resources.store import Store, StoreList
 from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance
-from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands
+from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands,TempIndicators
 from resources.trades import close_trades
 
 
@@ -74,6 +74,7 @@ api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(StoreList, '/stores')
 
+api.add_resource(Bot_prop_byid, '/bot/<int:botid>')
 api.add_resource(Bot_prop, '/bot/<string:botname>')
 api.add_resource(BotsList, '/bots')
 api.add_resource(OpenPositions, '/openpositions/<int:botid>')
@@ -85,6 +86,7 @@ api.add_resource(pair_whitelist, '/pairwhitelist/<int:botid>')
 api.add_resource(close_trades, '/closetrades/<int:botid>')
 api.add_resource(ReturnUser, '/auth/me')
 api.add_resource(Indicators, '/indicators/<int:botid>')
+api.add_resource(TempIndicators, '/tempindicators')
 api.add_resource(TempConfig, '/tempconfig')
 api.add_resource(Config, '/config/<int:botid>')
 api.add_resource(Strategy, '/strategy/<int:botid>')

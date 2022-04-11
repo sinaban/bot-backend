@@ -3,6 +3,36 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.bot_prop import Bot_propModel
 
+class Bot_prop_byid(Resource):
+  
+    @jwt_required()
+    def get(self, botid):
+        """
+        Get bot characteristics
+        It is neccessary to send access token
+        ---
+        tags:
+        - bot
+        parameters:
+          - in: path
+            botid: botid
+            type: string
+            required: true
+        responses:
+          200:
+            description: A single user item
+            schema:
+              id: id
+              properties:
+                username:
+                  type: string
+                  description: The name of the user
+        """
+        bot = Bot_propModel.find_by_id(botid)
+        if bot:
+            return bot.json() , 200
+        return {'message': 'Item not found'}, 201
+
 class Bot_prop(Resource):
     
     parser = reqparse.RequestParser()
@@ -32,7 +62,7 @@ class Bot_prop(Resource):
         help="An item with name market_type can't be empty"
     )
     @jwt_required()
-    def get(self, botid):
+    def get(self, botname):
         """
         Get bot characteristics
         It is neccessary to send access token
@@ -41,7 +71,7 @@ class Bot_prop(Resource):
         - bot
         parameters:
           - in: path
-            botid: botid
+            botname: botname
             type: string
             required: true
         responses:
@@ -54,7 +84,7 @@ class Bot_prop(Resource):
                   type: string
                   description: The name of the user
         """
-        bot = Bot_propModel.find_by_id(botid)
+        bot = Bot_propModel.find_by_name(botname)
         if bot:
             return bot.json() , 200
         return {'message': 'Item not found'}, 201

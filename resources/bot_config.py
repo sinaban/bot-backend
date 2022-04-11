@@ -359,7 +359,32 @@ class TempConfig(Resource):
 
         """
         return {'configs': config_template.config } , 200  
-     
+class TempIndicators(Resource):
+
+  @jwt_required()
+  def get(self):
+      """
+      get all indicators
+      It is neccessary to send access token
+      ---
+      tags:
+      - indicators
+
+
+      responses:          
+        200:
+          description: return all existed idicators
+
+        schema:
+          id: properties
+          properties:
+          category:
+            type: string
+            description: technical indicators category  
+      """                
+
+
+      return {'indicators Template': indicator_properties } , 200    
 class Indicators(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('indicators',
@@ -413,8 +438,9 @@ class Indicators(Resource):
                 
 
       """
-
-      return {'indicators': indicator_properties } , 200
+      res=json.loads(bot_config.get_bot_config(botid))
+      # print(type(ast.literal_eval(res['indicators'])))
+      return {'indicators': ast.literal_eval(res['indicators']) } , 200
 
   @jwt_required()
   def post(self, botid):
