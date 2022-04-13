@@ -100,6 +100,13 @@ config ={
 
 
 },
+"telegram": {
+    "telegram_enable" : False,
+    "bot_token": "",
+    "chat_id": ""
+},
+"run_bot_with_webapp":True,
+"strategy":"testdb", 
 
 "strategy":"testdb", 
 
@@ -108,8 +115,8 @@ config ={
     "leverage_number":"3"
 },
 "orders":{
-    "open":"limit",
-    "close":"limit",
+    "open":"market",
+    "close":"market",
     "stoploss":"market"
 },
 

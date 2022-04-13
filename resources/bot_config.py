@@ -250,9 +250,8 @@ class Strategy(Resource):
 
       if Bot_propModel.find_by_id(botid):            
         data = Strategy.parser.parse_args()
-        # res=json.loads(bot_config.get_bot_config(botid))
+        res=json.loads(bot_config.get_bot_config(botid))
         # print(data)
-        res={}
         res['buy_open_conditions']= data['buy_open_conditions']
         res['buy_close_conditions']= data['buy_close_conditions']
         res['sell_open_conditions']= data['sell_open_conditions']
@@ -327,8 +326,13 @@ class Config(Resource):
       if Bot_propModel.find_by_id(botid):            
         data = Config.parser.parse_args()
         # print(type((data['configs'][0])))
-        config= ast.literal_eval(data['configs'][0])#converts str to dict
-        # config= json.load(data['configs'][0])
+        new_config= ast.literal_eval(data['configs'][0])#converts str to dict
+        config = json.loads(bot_config.get_bot_config(botid)) 
+        print(type(config))
+        # print(config)
+        for key in new_config.keys():
+          config[key]=new_config[key]
+
         bot_config.set_bot_config(botid,**config)
 
         return {"action" : "confirmed"}
