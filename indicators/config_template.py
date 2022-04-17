@@ -1,3 +1,11 @@
+status={}
+commands={
+    "start": False,
+    "stop": False,
+    "stop_buy": False,
+    "restart": False
+
+}
 config ={
     "pair_whitelist": {
         "ADAUSDTM":{

@@ -72,6 +72,9 @@ def set_bot_commands(botid,**kwargs) -> bool :
 def get_bot_status(botid) -> dict :
      resp = redis_client.hget("bots:status",botid)     
      return resp
+def set_bot_status(botid,status) -> bool :
+     resp = redis_client.hset("bots:status",botid,status)     
+     return resp
 
 #debug mode
 if __name__ == "__main__":

@@ -327,8 +327,11 @@ class Config(Resource):
         data = Config.parser.parse_args()
         # print(type((data['configs'][0])))
         new_config= ast.literal_eval(data['configs'][0])#converts str to dict
-        config = json.loads(bot_config.get_bot_config(botid)) 
-        print(type(config))
+        if bot_config.get_bot_config(botid):
+          config = json.loads(bot_config.get_bot_config(botid)) 
+        else:
+          config = config_template.config
+        # print(type(config))
         # print(config)
         for key in new_config.keys():
           config[key]=new_config[key]

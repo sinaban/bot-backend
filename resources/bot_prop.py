@@ -2,6 +2,9 @@ from email import parser
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.bot_prop import Bot_propModel
+from models import bot_config
+from indicators import config_template
+from resources.bot_config import TempConfig
 
 class Bot_prop_byid(Resource):
   
@@ -144,16 +147,20 @@ class Bot_prop(Resource):
 
         """
         if Bot_propModel.find_by_name(botname):
-            return {'message': "An item with name '{}' already exists.".format(botid)}, 400
+            return {'message': "An item with name '{}' already exists.".format(botname)}, 400
 
         data = Bot_prop.parser.parse_args()
 
         bot = Bot_propModel(botname, **data)
 
         try:
-            bot.save_to_db()
-        except:
-            return {"message": "An error occurred inserting the bot."}, 500
+          bot.save_to_db()
+          bot_config.set_bot_config(bot.json()['id'],**config_template.config)
+          bot_config.set_bot_commands(bot.json()['id'],**config_template.commands)
+          bot_config.set_bot_status(bot.json()['id'],"stopped")
+        except Exception as e:
+
+            return {"message": f"An error occurred inserting the bot.{e}"}, 500
 
         return bot.json(), 200
     @jwt_required()
