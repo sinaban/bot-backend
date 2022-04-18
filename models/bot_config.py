@@ -76,6 +76,13 @@ def set_bot_status(botid,status) -> bool :
      resp = redis_client.hset("bots:status",botid,status)     
      return resp
 
+def set_bot_pairPosition(botid,**kwargs) -> bool :
+     resp = redis_client.hset("bots:pairPosition",botid,json.dumps(kwargs))     
+     return resp
+
+def get_bot_pairPosition(botid) -> dict :
+     resp = redis_client.hget("bots:pairPosition",botid)     
+     return resp
 #debug mode
 if __name__ == "__main__":
      # getPairList()
