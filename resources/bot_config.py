@@ -74,14 +74,15 @@ class Commands(Resource):
       """
       ret={}
       res=json.loads(bot_config.get_bot_commands(botid))
-      # print(type(res))
-      
-      ret['start'] = res['start']
-      ret['stop'] = res['stop']
-      ret['stop_buy'] = res['stop_buy']
-      ret['restart'] = res['restart']
-      # print(ret)
-      return ret , 200
+      if res:  
+        ret['start'] = res['start']
+        ret['stop'] = res['stop']
+        ret['stop_buy'] = res['stop_buy']
+        ret['restart'] = res['restart']
+        # print(ret)
+        return ret , 200
+      else:
+        return {"message":"could not find commands settings"},201
 
   @jwt_required()
   def post(self, botid):
@@ -532,7 +533,7 @@ class pair_whitelist(Resource):
         pair_whitelist = bot_config.get_pair_whitelist(botid)
         if pair_whitelist:
             return {'pair_whitelist': pair_whitelist} , 200
-        return {'message': 'Item not found'}, 201
+        return {'pair_whitelist': ''}, 201
     @jwt_required()
     def post(self, botid):
       pass

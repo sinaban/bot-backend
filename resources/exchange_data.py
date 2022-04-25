@@ -54,7 +54,7 @@ class OpenPositions(Resource):
         else:
             return {'message': 'no such market {} defined'.format(bot.market_type)}, 201
       return {'message': 'Item not found'}, 201
-
+    return {'message': 'config not found'}, 201
 class LastBidprice(Resource):
 
     parser = reqparse.RequestParser()
@@ -114,7 +114,7 @@ class LastBidprice(Resource):
                     return {'pair': data['pair'] , 'LastBidPrice' : response[0], 'FormalName' : response[1]} , 200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 201
-        return {'message': 'Item not found'}, 201
+        return {'message': 'bot not found'}, 201
 
 class LastAskprice(Resource):
     parser = reqparse.RequestParser()
@@ -260,7 +260,7 @@ class Klines(Resource):
                     return {'pair': data['pair'] , 'FormalName' : response[0], 'klines' : response[1]} , 200
                 except Exception as e:
                     return {'Exception': "{}".format(e)}, 201
-        return {'message': 'Item not found'}, 201
+        return {'message': ''}, 201
 
 class LastBalance(Resource):
     parser = reqparse.RequestParser()

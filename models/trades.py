@@ -152,8 +152,8 @@ class ClosedTrades(db.Model):
             "pair" : self.o_pair,
             "oid_close" : self.o_oid_close,
             "oid_open" : self.o_oid_open, 
-            "open_date" : json.dumps(self.o_open_date,indent=4, sort_keys=True, default=str), 
-            "close_date" : json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str), 
+            "open_date" : self.o_open_date, #(self.o_open_date,indent=4, sort_keys=True, default=str), 
+            "close_date" : self.o_close_date,#json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str), 
             "open_price" : self.o_open_price, 
             "close_price" : self.o_close_price, 
             "profit" : self.o_profit, 
@@ -176,7 +176,13 @@ class ClosedTrades(db.Model):
     @classmethod
     def find_by_id(cls,botid,limit):
         bot = Bot_propModel.find_by_id(botid)
-        return bot.json()['name'] ,cls.query.filter_by(o_strategy=bot.json()['name']).limit(limit)
+        return bot.json()['name'] ,cls.query.filter_by(o_strategy=botid).limit(limit)
+
+    @classmethod
+    def find_by_id_all(cls,botid):
+        bot = Bot_propModel.find_by_id(botid)
+        return [row.json() for row in cls.query.filter_by(o_strategy=botid).all()]
+        # return {'name': self.name, 'items': [item.json() for item in self.items.all()]}
 
     def save_to_db(self):
         db.session.add(self)
