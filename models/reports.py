@@ -23,6 +23,17 @@ class BotReport(ClosedTrades):
             "pair_whitelist" : self.pair_whitelist
         }
 
+    def final_result_overall(self):
+        return {
+            "name": self.name,
+            "id" : self.id,
+            "overallProfit" : self.overall_profit,
+            "win": self.win,
+            "lose": self.loss,
+            "BotTotalProfitPerDay" : self.BotTotalProfitPerDay,
+            "balance" : self.balance
+        }
+
     def return_per_day(self,data) -> dict:
         res=[]
         fee=0
@@ -77,8 +88,25 @@ class BotReport(ClosedTrades):
                 except Exception as e:
                     return {}
         return {}
+    def get_balance(self,bot,botid):
+        config = json.loads(bot_config.get_bot_config(botid))
+        if config['dryrun_config']['dryrun_enable'] == False:
+            if bot.exchange_name=='kucoin':
+                if bot.market_type == 'futures':            
+                    from exchanges.kucoin_lib import kucoin_futures_ex
+                    try:
+                        ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
+                        response = ex.get_balance(config['currency'])
+                        return response
+                    except Exception as e:
+                        return {}
+            return {}
+        elif config['dryrun_config']['dryrun_enable'] == True:
+            response=bot_config.get_bot_balanceWallet(botid)
+            return json.loads(response)
+
     @classmethod
-    def get_bot_reports(cls,botid):
+    def get_bot_reports(cls,botid,perday=True):
         pair_whitelist_dict=[]
         try:
             bot= Bot_propModel.find_by_id(botid)
@@ -92,27 +120,31 @@ class BotReport(ClosedTrades):
                 cls.loss= len(df[df['profit']<0])
                 
                 cls.BotTotalProfitPerDay = cls.return_per_day(cls,data=df)
-                pair_whitelist = bot_config.get_pair_whitelist(botid)
-                if pair_whitelist:
-                    i=0
-                    for pair in pair_whitelist.keys():
-                        df_pair=df[df['pair']==pair]
-                        temp={
-                            "formal_name" : pair_whitelist[pair]['formal_name'],
-                            "PairTotalProfitPerDay" : cls.return_per_day(cls,df_pair),
-                            "klines" : cls.get_klines(pair,bot,botid)
-                        }
-                        
-                        pair_whitelist_dict.append(temp)
-                        i +=1
-                    cls.pair_whitelist=pair_whitelist_dict
-                else:
-                    cls.pair_whitelist={}
+                cls.balance= cls.get_balance(cls,bot,botid)
+                if perday == True: 
+                    pair_whitelist = bot_config.get_pair_whitelist(botid)
+                    if pair_whitelist:
+                        i=0
+                        for pair in pair_whitelist.keys():
+                            df_pair=df[df['pair']==pair]
+                            temp={
+                                "formal_name" : pair_whitelist[pair]['formal_name'],
+                                "PairTotalProfitPerDay" : cls.return_per_day(cls,df_pair),
+                                "klines" : cls.get_klines(pair,bot,botid)
+                            }
+                            
+                            pair_whitelist_dict.append(temp)
+                            i +=1
+                        cls.pair_whitelist=pair_whitelist_dict
+                    else:
+                        cls.pair_whitelist={}
+                    return cls.final_result(cls)
+                return cls.final_result_overall(cls)
 
 
             # print(cls.final_result(cls))
-            return cls.final_result(cls)
-            print('s')
+                
+            # print('s')
         except Exception as e:
             print(f'exception in get_bot_reports : {e}')
 

@@ -123,16 +123,20 @@ class Commands(Resource):
         # res=json.loads(bot_config.get_bot_commands(botid))
         # print(data)
         res = {}
-        res['start']= data['start']
-        res['stop']= data['stop']
-        res['stop_buy']= data['stop_buy']
-        res['restart']= data['restart']
-        # print((res['buy_open_conditions']))
-        bot_config.set_bot_commands(botid,**res)
+        if data:
+          res['start']= data['start']
+          res['stop']= data['stop']
+          res['stop_buy']= data['stop_buy']
+          res['restart']= data['restart']
+          # print((res['buy_open_conditions']))
+          bot_config.set_bot_commands(botid,**res)
+          return {"action" : "confirmed"}
+        else:
+          return {}
 
 
         # bot_config.save_to_file(**data)
-        return {"action" : "confirmed"}
+        
 
       else: 
 

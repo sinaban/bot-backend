@@ -48,7 +48,7 @@ class close_trades(Resource):
         #   if row['o_exchange'] == 'kucoin':
         #     row['FormalName'] = kucoin_pairs.futures_pairs[row['o_pair']]
         if response:
-          return {'message': [row.json() for row in ClosedTrades.query.filter(ClosedTrades.o_strategy==response[0]).order_by(ClosedTrades.o_close_date.desc()).limit(data['limit'])]} , 200
+          return {'message': [row.json_time() for row in ClosedTrades.query.filter(ClosedTrades.o_strategy==botid).order_by(ClosedTrades.o_close_date.desc()).limit(data['limit'])]} , 200
           return response.json() , 200
-        return {'message': 'Item not found'}, 201
+        return {'message': 'bot not found'}, 201
 

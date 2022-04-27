@@ -168,6 +168,27 @@ class ClosedTrades(db.Model):
             "strategy" : self.o_strategy, 
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
         }
+    def json_time(self):
+        return {
+            "pair" : self.o_pair,
+            "oid_close" : self.o_oid_close,
+            "oid_open" : self.o_oid_open, 
+            "open_date" : json.dumps(self.o_open_date,indent=4, sort_keys=True, default=str), 
+            "close_date" : json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str), 
+            "open_price" : self.o_open_price, 
+            "close_price" : self.o_close_price, 
+            "profit" : self.o_profit, 
+            "amount" : self.o_amount, 
+            "side" : self.o_side,
+            "close_reason" : self.o_close_reason ,
+            "symbol" : self.o_symbol, 
+            "exchange" : self.o_exchange, 
+            "profit_percent" : self.o_profit_percent, 
+            "take_profit" : self.o_take_profit, 
+            "dynamic_stoploss" : self.o_dynamic_stoploss, 
+            "strategy" : self.o_strategy, 
+            "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
+        }
 
     @classmethod
     def find_by_name(cls,strategy,limit):

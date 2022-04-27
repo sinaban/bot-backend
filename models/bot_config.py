@@ -83,6 +83,9 @@ def set_bot_pairPosition(botid,**kwargs) -> bool :
 def get_bot_pairPosition(botid) -> dict :
      resp = redis_client.hget("bots:pairPosition",botid)     
      return resp
+def get_bot_balanceWallet(botid) -> bool :
+     resp = redis_client.hget("bots:balanceWallet",botid)     
+     return resp
 #debug mode
 if __name__ == "__main__":
      # getPairList()

@@ -20,7 +20,7 @@ from resources.store import Store, StoreList
 from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance
 from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands,TempIndicators
 from resources.trades import close_trades
-from resources.reports import BotOverallReports
+from resources.reports import BotOverallReports,BotReports
 
 
 app = Flask(__name__)
@@ -92,7 +92,8 @@ api.add_resource(TempConfig, '/tempconfig')
 api.add_resource(Config, '/config/<int:botid>')
 api.add_resource(Strategy, '/strategy/<int:botid>')
 api.add_resource(Commands, '/commands/<int:botid>')
-api.add_resource(BotOverallReports, '/report/<int:botid>')
+api.add_resource(BotReports, '/report/<int:botid>')
+api.add_resource(BotOverallReports, '/overallreport/<string:botids>')
 
 api.add_resource(UserRegister, '/register')
 

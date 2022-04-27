@@ -320,5 +320,5 @@ class LastBalance(Resource):
                     return {'currency': data['currency'] , 'latest balance' : response} ,200
                 except Exception as e:
                     return {'message': "{}".format(e)}, 201
-        return {'message': 'Item not found'}, 201
+        return {'message': 'wrong exchange name'}, 201
 
