@@ -95,10 +95,11 @@ class BotReport(ClosedTrades):
                 if bot.market_type == 'futures':            
                     from exchanges.kucoin_lib import kucoin_futures_ex
                     try:
-                        ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
-                        response = ex.get_balance(config['currency'])
+                        ex = kucoin_futures_ex(apikey=bot.apikey,apisecret= bot.apisecret,apipass= bot.apipass,drydrun=False)
+                        response = ex.get_overall_account(config['currency'])
                         return response
                     except Exception as e:
+                        print(f"exception in get balance: {e}")
                         return {}
             return {}
         elif config['dryrun_config']['dryrun_enable'] == True:

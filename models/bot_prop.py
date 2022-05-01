@@ -10,22 +10,24 @@ class Bot_propModel(db.Model):
     apipass = db.Column(db.String(80))
     exchange_name = db.Column(db.String(80))
     market_type = db.Column(db.String(10))
-
+    container_name = db.Column(db.String(20))
 
     # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     # store = db.relationship('StoreModel')
 
-    def __init__(self, name, apikey, apisecret,apipass,exchange_name,market_type):
+    def __init__(self, name, apikey, apisecret,apipass,exchange_name,market_type,container_name):
         self.name = name
         self.apikey = apikey
         self.apisecret = apisecret
         self.apipass = apipass
         self.exchange_name = exchange_name
         self.market_type = market_type
+        self.container_name = container_name
 
 
     def json(self):
-        return {'name': self.name,'id':self.id, 'exchange_name': self.exchange_name,'apikey':self.apikey,'market type': self.market_type}
+        return {'name': self.name,'id':self.id, 'exchange_name': self.exchange_name,'apikey':self.apikey,'market type': self.market_type,
+        "container_name":self.container_name}
 
     @classmethod
     def find_by_name(cls, name):

@@ -1,10 +1,14 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
+from numpy import empty
 from models import bot_config
 from indicators.ta_indicators import Indicator, indicator_properties
 from indicators import config_template
 from models.bot_prop import Bot_propModel
 import json,ast
+import requests
+
+container_network = "http://0.0.0.0:7001"
 
 class Commands(Resource):
   parser = reqparse.RequestParser()
@@ -116,23 +120,35 @@ class Commands(Resource):
                 
 
       """
+      try:
+        bot = Bot_propModel.find_by_id(botid)
+        if bot:            
+          data = Commands.parser.parse_args()
+          # res=json.loads(bot_config.get_bot_commands(botid))
+          # print(data)
+          res = {}
+          if data:
+            res['start']= data['start']
+            res['stop']= data['stop']
+            res['stop_buy']= data['stop_buy']
+            res['restart']= data['restart']
+            # print((res['buy_open_conditions']))
+            bot_config.set_bot_commands(botid,**res)
+            if data['start'] == True:
 
-
-      if Bot_propModel.find_by_id(botid):            
-        data = Commands.parser.parse_args()
-        # res=json.loads(bot_config.get_bot_commands(botid))
-        # print(data)
-        res = {}
-        if data:
-          res['start']= data['start']
-          res['stop']= data['stop']
-          res['stop_buy']= data['stop_buy']
-          res['restart']= data['restart']
-          # print((res['buy_open_conditions']))
-          bot_config.set_bot_commands(botid,**res)
-          return {"action" : "confirmed"}
-        else:
-          return {}
+              if not bot.json()['container_name'] :
+                endpoint = f"{container_network}/runnew/{bot.json()['id']}"
+                print (endpoint)
+                response = requests.post(endpoint)
+                if response.json()['message']:
+                  bot.container_name = bot.json()['id']
+                  
+                  bot.save()
+            return {"action" : "confirmed"}
+          else:
+            return {}
+      except Exception as e:
+        print(f'Exception in post commands :{e}')
 
 
         # bot_config.save_to_file(**data)

@@ -11,3 +11,4 @@ redis
 flask-swagger
 flask-swagger-ui
 flask-cors
+requests

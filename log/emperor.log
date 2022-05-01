@@ -7150,3 +7150,173 @@ Wed Apr 27 12:56:10 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini h
 Wed Apr 27 12:56:10 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is ready to accept requests
 Wed Apr 27 13:02:00 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
 Wed Apr 27 13:02:03 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Wed Apr 27 15:24:04 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Wed Apr 27 15:24:05 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Wed Apr 27 15:24:07 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Thu Apr 28 05:06:54 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 06:27:11 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 06:41:55 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+[emperor] *** RAGNAROK EVOKED ***
+[emperor] *** RAGNAROK EVOKED ***
+Sat Apr 30 11:31:43 2022 - [emperor] stop the uwsgi instance /var/www/html/items-rest/uwsgi.ini
+waiting for Emperor death...
+waiting for Emperor death...
+Sat Apr 30 11:31:45 2022 - [emperor] removed uwsgi instance /var/www/html/items-rest/uwsgi.ini
+waiting for Emperor death...
+Sat Apr 30 11:31:46 2022 - The Emperor is buried.
+The Emperor has been buried (pid: 990500)
+...brutally killing workers...
+binary reloading uWSGI...
+chdir() to /
+closing all non-uwsgi socket fds > 2 (max_fd = 1024)...
+running /var/www/html/items-rest/venv/bin/uwsgi
+*** Starting uWSGI 2.0.20 (64bit) on [Sat Apr 30 11:31:46 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+*** starting uWSGI Emperor ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+*** has_emperor mode detected (fd: 6) ***
+[uWSGI] getting INI configuration from /var/www/html/items-rest/uwsgi.ini
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55c18e9ca5b0
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your mercy for graceful operations on workers is 60 seconds
+*** Operational MODE: no-workers ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+gracefully (RE)spawned uWSGI master process (pid: 990492)
+sendmsg(): Transport endpoint is already connected [core/notify.c line 39]
+Sat Apr 30 11:31:47 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini has been spawned
+Sat Apr 30 11:31:47 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is ready to accept requests
+*** Starting uWSGI 2.0.20 (64bit) on [Sat Apr 30 11:33:13 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+*** starting uWSGI Emperor ***
+*** has_emperor mode detected (fd: 6) ***
+[uWSGI] getting INI configuration from /var/www/html/items-rest/uwsgi.ini
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x561063708610
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your mercy for graceful operations on workers is 60 seconds
+*** Operational MODE: no-workers ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+spawned uWSGI master process (pid: 1091009)
+Sat Apr 30 11:33:14 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini has been spawned
+Sat Apr 30 11:33:14 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is ready to accept requests
+Sat Apr 30 11:33:58 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 11:33:59 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 11:35:53 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 11:36:29 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 11:41:32 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+waiting for Emperor death...
+[emperor] *** RAGNAROK EVOKED ***
+Sat Apr 30 12:49:30 2022 - [emperor] stop the uwsgi instance /var/www/html/items-rest/uwsgi.ini
+[emperor] *** RAGNAROK ALREADY EVOKED (mercyless in 30 seconds)***
+waiting for Emperor death...
+waiting for Emperor death...
+Sat Apr 30 12:49:32 2022 - [emperor] removed uwsgi instance /var/www/html/items-rest/uwsgi.ini
+waiting for Emperor death...
+Sat Apr 30 12:49:33 2022 - The Emperor is buried.
+The Emperor has been buried (pid: 1091018)
+...brutally killing workers...
+binary reloading uWSGI...
+chdir() to /
+closing all non-uwsgi socket fds > 2 (max_fd = 1024)...
+running /var/www/html/items-rest/venv/bin/uwsgi
+*** Starting uWSGI 2.0.20 (64bit) on [Sat Apr 30 12:49:34 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+*** starting uWSGI Emperor ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+*** has_emperor mode detected (fd: 6) ***
+[uWSGI] getting INI configuration from /var/www/html/items-rest/uwsgi.ini
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x557cafe1e5b0
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your mercy for graceful operations on workers is 60 seconds
+*** Operational MODE: no-workers ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+gracefully (RE)spawned uWSGI master process (pid: 1091009)
+sendmsg(): Transport endpoint is already connected [core/notify.c line 39]
+Sat Apr 30 12:49:35 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini has been spawned
+Sat Apr 30 12:49:35 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is ready to accept requests
+*** Starting uWSGI 2.0.20 (64bit) on [Sat Apr 30 12:51:00 2022] ***
+compiled with version: 9.3.0 on 26 January 2022 12:14:43
+os: Linux-5.4.0-91-generic #102-Ubuntu SMP Fri Nov 5 16:31:28 UTC 2021
+nodename: banan
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 8
+current working directory: /
+detected binary path: /var/www/html/items-rest/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your processes number limit is 63889
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+*** starting uWSGI Emperor ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+*** has_emperor mode detected (fd: 6) ***
+[uWSGI] getting INI configuration from /var/www/html/items-rest/uwsgi.ini
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55b18afb3610
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your mercy for graceful operations on workers is 60 seconds
+*** Operational MODE: no-workers ***
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+spawned uWSGI master process (pid: 1096068)
+Sat Apr 30 12:51:01 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini has been spawned
+Sat Apr 30 12:51:01 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is ready to accept requests
+Sat Apr 30 15:04:32 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 15:10:51 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 15:10:51 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 15:10:57 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 15:12:59 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 19:57:30 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sat Apr 30 19:57:30 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
+Sun May  1 11:37:11 2022 - [emperor] vassal /var/www/html/items-rest/uwsgi.ini is now loyal
