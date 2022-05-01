@@ -104,4 +104,4 @@ if __name__ == '__main__':
         def create_tables():
             db.create_all()
 
-    app.run(port=7000)
+    app.run(host='0.0.0.0', port=7000)
