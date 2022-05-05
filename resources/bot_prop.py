@@ -64,6 +64,11 @@ class Bot_prop(Resource):
         required=True,
         help="An item with name market_type can't be empty"
     )
+    parser.add_argument("container_name",
+        type=str,
+        required=False,
+        help="An item with name container_name can't be empty"
+    )
     @jwt_required()
     def get(self, botname):
         """
