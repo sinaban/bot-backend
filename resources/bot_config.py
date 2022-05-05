@@ -135,16 +135,21 @@ class Commands(Resource):
             # print((res['buy_open_conditions']))
             bot_config.set_bot_commands(botid,**res)
             if data['start'] == True:
-
-              if not bot.json()['container_name'] :
+              endpoint = f"{container_network}/containers"
+              names = requests.get(endpoint)
+              # print(not f"b{botid}" in names.json()['container_names'])
+              if (not bot.json()['container_name']) or (not f"b{botid}" in names.json()['container_names']):
                 endpoint = f"{container_network}/runnew/{bot.json()['id']}"
-                print (endpoint)
+                # print (endpoint)
                 response = requests.post(endpoint)
                 if response.json()['message']:
+                  print(bot.json())
                   bot.container_name = bot.json()['id']
                   
-                  bot.save()
-            return {"action" : "confirmed"}
+                  bot.save_to_db()
+                return {"message" : "action confirmed"}
+              else: 
+                return{"message" : "bot already started"}
           else:
             return {}
       except Exception as e:
