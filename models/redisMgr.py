@@ -1,7 +1,8 @@
 import redis
 
 redis_client = redis.Redis(
-     host= 'localhost',
+     # host= 'cache', #for docker
+     host= 'localhost',#for local
      port= '6379',
      db=0)
 

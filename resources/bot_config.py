@@ -139,6 +139,7 @@ class Commands(Resource):
               names = requests.get(endpoint)
               # print(not f"b{botid}" in names.json()['container_names'])
               if (not bot.json()['container_name']) or (not f"b{botid}" in names.json()['container_names']):
+                bot_config.setNewBot(False,bot.json()['id'],False)
                 endpoint = f"{container_network}/runnew/{bot.json()['id']}"
                 # print (endpoint)
                 response = requests.post(endpoint)
@@ -151,7 +152,10 @@ class Commands(Resource):
               else: 
                 return{"message" : "bot already started"}
           else:
-            return {}
+            return {"message" : "action confirmed"}
+        else: 
+
+          return {"message": "there is no such bot name."}, 400
       except Exception as e:
         print(f'Exception in post commands :{e}')
 
@@ -159,9 +163,6 @@ class Commands(Resource):
         # bot_config.save_to_file(**data)
         
 
-      else: 
-
-        return {"message": "there is no such bot name."}, 400
 
 class Strategy(Resource):
   parser = reqparse.RequestParser()

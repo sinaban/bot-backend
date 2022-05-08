@@ -2,7 +2,8 @@ import redis
 import json
 
 redis_client = redis.Redis(
-     host= 'localhost',
+     host= 'cache', #for docker
+     # host= 'localhost',#for local
      port= '6379',
      db=0)
 
@@ -52,6 +53,26 @@ def set_indicators(botname) -> dict:
           # print(pairList)
           return pairList[botname]
      return None
+
+def setNewBot(occupy,botids,just_occupy):
+
+     if just_occupy:     
+          redis_client.hset("new_bot", "occupy",json.dumps(occupy))
+     else:
+          bot_list=[]
+          o , bot_id= getNewBot()
+          if bot_id:
+               bot_list.append(bot_id)               
+               bot_list.append(botids)
+          else : 
+               bot_list.append(botids)
+          redis_client.hset("new_bot", "occupy",json.dumps(occupy))
+          redis_client.hset("new_bot", "bot_id",json.dumps(bot_list))
+
+def getNewBot() :
+     occupy = redis_client.hget("new_bot", "occupy")
+     botids = redis_client.hget("new_bot", "bot_id")
+     return json.loads(occupy),json.loads(botids)
 
 def get_bot_config(botid) -> dict :
      resp = redis_client.hget("bots:config",botid)     
