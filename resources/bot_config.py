@@ -8,7 +8,7 @@ from models.bot_prop import Bot_propModel
 import json,ast
 import requests
 
-container_network = "http://0.0.0.0:7001"
+container_network = "http://127.17.0.1:7001"
 
 class Commands(Resource):
   parser = reqparse.RequestParser()
@@ -138,7 +138,7 @@ class Commands(Resource):
               endpoint = f"{container_network}/containers"
               names = requests.get(endpoint)
               # print(not f"b{botid}" in names.json()['container_names'])
-              if (not bot.json()['container_name']) or (not f"b{botid}" in names.json()['container_names']):
+              if  (not f"b{botid}" in names.json()['container_names']):#(not bot.json()['container_name']) or
                 bot_config.setNewBot(False,bot.json()['id'],False)
                 endpoint = f"{container_network}/runnew/{bot.json()['id']}"
                 # print (endpoint)
