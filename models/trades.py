@@ -25,12 +25,13 @@ class Trades(db.Model):
     take_profit = db.Column(db.Float)
     dynamic_stoploss = db.Column(db.Float)
     strategy = db.Column(db.String(50))
+    size = db.Column(db.Float)
 
     # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     # store = db.relationship('StoreModel')
 
     def __init__(self, pair, oid_close, oid_open,open_date,close_date,open_price,close_price,profit,amount,close_reason,is_open,symbol,exchange
-    ,profit_percent,take_profit,dynamic_stoploss,strategy):
+    ,profit_percent,take_profit,dynamic_stoploss,strategy,size):
         self.pair = pair
         self.oid_close = oid_close
         self.oid_open = oid_open
@@ -48,6 +49,7 @@ class Trades(db.Model):
         self.take_profit = take_profit
         self.dynamic_stoploss = dynamic_stoploss
         self.strategy = strategy
+        self.size = size
     def defaultconverter(self,o):
         if isinstance(o, datetime.datetime):
             return o.__str__()
@@ -71,6 +73,7 @@ class Trades(db.Model):
             "take_profit" : self.take_profit, 
             "dynamic_stoploss" : self.dynamic_stoploss, 
             "strategy" : self.strategy, 
+            "size" : self.size, 
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
 
         }
@@ -113,13 +116,14 @@ class ClosedTrades(db.Model):
     o_profit_percent = db.Column(db.Float)
     o_strategy = db.Column(db.String(50))
     o_close_reason = db.Column(db.String(50))
+    o_size = db.Column(db.Float)
 
 
     # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     # store = db.relationship('StoreModel')
 
     def __init__(self, o_exchange,o_pair,o_symbol,o_side,o_order_id,o_id,o_price,o_amount,o_status,o_type,o_oid_close,o_oid_open
-        ,o_open_date,o_close_date,o_open_price,o_close_price,o_take_profit,o_dynamic_stoploss,o_profit,o_profit_percent,o_strategy,o_close_reason):
+        ,o_open_date,o_close_date,o_open_price,o_close_price,o_take_profit,o_dynamic_stoploss,o_profit,o_profit_percent,o_strategy,o_close_reason,o_size):
         self.o_pair = o_pair
         self.o_oid_close = o_oid_close
         self.o_oid_open = o_oid_open
@@ -142,6 +146,7 @@ class ClosedTrades(db.Model):
         self.o_take_profit = o_take_profit
         self.o_dynamic_stoploss = o_dynamic_stoploss
         self.o_strategy = o_strategy
+        self.o_size = o_size
         
     def defaultconverter(self,o):
         if isinstance(o, datetime.datetime):
@@ -166,6 +171,7 @@ class ClosedTrades(db.Model):
             "take_profit" : self.o_take_profit, 
             "dynamic_stoploss" : self.o_dynamic_stoploss, 
             "strategy" : self.o_strategy, 
+            "size" : self.o_size,
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
         }
     def json_time(self):
@@ -187,6 +193,7 @@ class ClosedTrades(db.Model):
             "take_profit" : self.o_take_profit, 
             "dynamic_stoploss" : self.o_dynamic_stoploss, 
             "strategy" : self.o_strategy, 
+            "size" : self.o_size,
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
         }
 

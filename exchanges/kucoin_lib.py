@@ -3,7 +3,7 @@ import ccxt
 import pandas as pd
 import time 
 from kucoin_futures.client import Trade,Market
-from models import redisMgr as myRedis  
+from models import bot_config as myRedis  
 import logging
 import ccxt.base.exchange
 from exchanges import kucoin_pairs
