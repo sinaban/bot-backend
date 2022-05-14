@@ -17,7 +17,7 @@ class Timeframe(Resource):
       if bot.market_type =='futures':
         from exchanges.kucoin_lib import kucoin_futures_ex
         ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
-        return {"timeframes" : ex.get_timefrmaes}
+        return {"timeframes" : ex.get_timefrmaes()}
       else:
         return {"message" : "could not find market type"}
     else:
