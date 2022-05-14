@@ -16,7 +16,7 @@ from resources.user import UserRegister,ReturnUser
 from resources.item import Item, ItemList
 from resources.bot_prop import Bot_prop, BotsList,Bot_prop_byid
 from resources.store import Store, StoreList
-from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance,GetTimeframe
+from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance,Timeframe
 from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands,TempIndicators
 from resources.trades import close_trades
 from resources.reports import BotOverallReports,BotReports
@@ -78,7 +78,7 @@ api.add_resource(StoreList, '/stores')
 api.add_resource(Bot_prop_byid, '/bot/<int:botid>')
 api.add_resource(Bot_prop, '/bot/<string:botname>')
 api.add_resource(BotsList, '/bots')
-api.add_resource(GetTimeframe, '/timeframes/<int:botid>')
+api.add_resource(Timeframe, '/timeframes/<int:botid>')
 api.add_resource(OpenPositions, '/openpositions/<int:botid>')
 api.add_resource(LastBidprice, '/lastbidprice/<int:botid>')
 api.add_resource(LastAskprice, '/lastaskprice/<int:botid>')

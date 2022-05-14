@@ -7,7 +7,7 @@ from models import bot_config
 
 import json
 
-class GetTimeframe(Resource)
+class Timeframe(Resource):
   @jwt_required()
   def get(self, botid):
 
