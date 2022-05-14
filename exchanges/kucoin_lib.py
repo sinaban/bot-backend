@@ -17,9 +17,12 @@ class kucoin_futures_ex():
         self.dryrun=drydrun
         self.exchange= ccxt.kucoin()
         self.exchange.options['defaultType']='futures'
+        self.timeframe = [1,5,15,30,60,120,240,480,720,1440,10080]
     def get_client(self):
         client = Trade(key=self.apikey, secret=self.apisecret, passphrase=self.apipass, is_sandbox=False, url='')
         return client
+    def get_timefrmaes(self):
+        return self.timeframe
 
 
     def get_realtimeticker(self,pair):
