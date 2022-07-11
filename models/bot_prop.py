@@ -12,9 +12,6 @@ class Bot_propModel(db.Model):
     market_type = db.Column(db.String(10))
     container_name = db.Column(db.String(20))
 
-    # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    # store = db.relationship('StoreModel')
-
     def __init__(self, name, apikey, apisecret,apipass,exchange_name,market_type,container_name):
         self.name = name
         self.apikey = apikey

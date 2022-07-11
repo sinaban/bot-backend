@@ -3,7 +3,6 @@ import json
 
 redis_client = redis.Redis(
      host= 'cache', #for docker
-     # host= 'localhost',#for local
      port= '6379',
      db=0)
 
@@ -12,7 +11,6 @@ _askPrice= "bestAskPrice"
 _pairs = "pairs"
 
 def save_to_file(**kwargs):
-     # pr=json.load(kwargs)
      f = open("test.py", "w")
      f.write(str(kwargs))
      f.close()
@@ -39,10 +37,8 @@ def getAskPrice(pair) -> float:
      return None
 
 def get_pair_whitelist(botid) -> dict:
-     # resp = redis_client.hget("bots:config",botid)     
      pairList = json.loads(redis_client.hget("bots:config",botid))
      if pairList['pair_whitelist'] is not None:
-          # print(pairList)
           return pairList['pair_whitelist']
      return None
 
@@ -50,12 +46,10 @@ def set_indicators(botname) -> dict:
      redis_client.hmset()
      pairList = json.loads(redis_client.get('bots'))
      if pairList[botname] is not None:
-          # print(pairList)
           return pairList[botname]
      return None
 
 def setNewBot(occupy,botids,just_occupy):
-
      if just_occupy:     
           redis_client.hset("new_bot", "occupy",json.dumps(occupy))
      else:
@@ -107,9 +101,9 @@ def get_bot_pairPosition(botid) -> dict :
 def get_bot_balanceWallet(botid) -> bool :
      resp = redis_client.hget("bots:balanceWallet",botid)     
      return resp
+     
 #debug mode
 if __name__ == "__main__":
-     # getPairList()
      updatePrice('BCHUSDTM', 1839.383)
      getPrice('BCHUSDTM')
      getAskPrice('BCHUSDTM')

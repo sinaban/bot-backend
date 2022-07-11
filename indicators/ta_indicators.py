@@ -208,8 +208,6 @@ class Indicator():
         'MULT' : f'df["MULT{self.suffix}"] =  talib.MULT(df["{self.CandleHigh}"], df["{self.CandleLow}"])',
         'SUB' : f'df["SUB{self.suffix}"] =  talib.SUB(df["{self.CandleHigh}"], df["{self.CandleLow}"])',
         'SUM' : f'df["SUM{self.suffix}"] =  talib.SUM(df["{self.CandlePricePoint}"], timeperiod={self.timeperiod})'
-
-
         }
 
 
@@ -380,8 +378,6 @@ indicator_properties = {
 
 if __name__ == "__main__":
     for ind in indicator_properties:
-        # print(ind)
-        # print(indicator_properties[ind]['IndicatorName'])
         indicator_properties[ind]['IndicatorName'] = ind
 
     f = open("indicator2.py", "w")

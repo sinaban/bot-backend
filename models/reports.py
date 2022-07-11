@@ -2,15 +2,27 @@
 from models.trades import ClosedTrades
 from models.bot_prop import Bot_propModel
 import pandas as pd
-from datetime import datetime
 from models import bot_config
 import json
 
 class BotReport(ClosedTrades):
+
+    zero_values={
+        "profit": 0,
+        "win": 0,
+        "lose": 0,
+        "fee": 0
+    }
     
-    def __init__(self, o_exchange, o_pair, o_symbol, o_side, o_order_id, o_id, o_price, o_amount, o_status, o_type, o_oid_close, o_oid_open, o_open_date, o_close_date, o_open_price, o_close_price, o_take_profit, o_dynamic_stoploss, o_profit, o_profit_percent, o_strategy, o_close_reason):
-        super().__init__(o_exchange, o_pair, o_symbol, o_side, o_order_id, o_id, o_price, o_amount, o_status, o_type, o_oid_close, o_oid_open, o_open_date, o_close_date, o_open_price, o_close_price, o_take_profit, o_dynamic_stoploss, o_profit, o_profit_percent, o_strategy, o_close_reason)
-        
+    def __init__(self, o_exchange, o_pair, o_symbol, o_side, o_order_id, o_id, o_price, o_amount,\
+                 o_status, o_type, o_oid_close, o_oid_open, o_open_date, o_close_date, o_open_price,\
+                 o_close_price, o_take_profit, o_dynamic_stoploss, o_profit, o_profit_percent, o_strategy, o_close_reason):
+
+        super().__init__(o_exchange, o_pair, o_symbol, o_side, o_order_id, o_id, o_price, o_amount, o_status, o_type, o_oid_close,\
+                         o_oid_open, o_open_date, o_close_date, o_open_price, o_close_price, o_take_profit, o_dynamic_stoploss, o_profit,\
+                         o_profit_percent, o_strategy, o_close_reason)
+
+        self.exchange_fee=0.0006
 
     def final_result(self):
         return {
@@ -34,33 +46,39 @@ class BotReport(ClosedTrades):
             "balance" : self.balance
         }
 
+    def get_win_number(self,df:pd.DataFrame):
+        return len(df[df['profit']>0])
+
+    def get_lose_number(self,df:pd.DataFrame):
+        return len(df[df['profit']<0])
+
+    def is_dataframe_empty(self, df:pd.DataFrame, period, iternum):
+        return df.loc[(df['close_date']>=period[iternum]) & (df['close_date']<period[(iternum+1)])].empty
+
+    def get_data_in_periods(self,df:pd.DataFrame):        
+        starttime=df['close_date'].iloc[0].replace(hour=00, minute=00)
+        return pd.date_range(start=starttime,end= df['close_date'].iloc[-1],freq='D')        
+
     def return_per_day(self,data) -> dict:
         res=[]
         fee=0
-        self.exchange_fee=0.0006
         df = data.sort_values(by= "close_date")
-        starttime=df['close_date'].iloc[0].replace(hour=00, minute=00)
-        priods= pd.date_range(start=starttime,end= df['close_date'].iloc[-1],freq='D')
-        # print(len(priods))
+        priods= self.get_data_in_periods(df)
+
         for i in range (len(priods)-1):
-            # print(priods[i])
-            # print(priods[i+1])
-            if not df.loc[(df['close_date']>=priods[i]) & (df['close_date']<priods[(i+1)])].empty :
+            if not self.is_dataframe_empty(df, priods, i) :                
                 df1=df.loc[(df['close_date']>=priods[i]) & (df['close_date']<priods[(i+1)])]
                 profit=df1['profit'].cumsum().iloc[-1]
-                win = len(df1[df1['profit']>0])
-                lose= len(df1[df1['profit']<0])
+                win = self.get_win_number(df1)
+                lose= self.get_lose_number(df1)
                 for j in range(len(df1)):
                     if j==0:
                         fee=0
-                    fee += df1['amount'].iloc[j]*(self.exchange_fee)*2#+ df1['close_price'].iloc[j]*(self.exchange_fee)
-                # print(profit)
-                # print(fee)
+                    fee += df1['amount'].iloc[j]*(self.exchange_fee)*2
+
             else: 
-                profit=0
-                win=0
-                lose=0
-                fee=0
+                temp = BotReport.zero_values
+
             temp={
                 "date": json.dumps(priods[i],indent=4, sort_keys=True, default=str),
                 "profit": profit,
@@ -68,11 +86,9 @@ class BotReport(ClosedTrades):
                 "lose": lose,
                 "exchange_fee": fee,
                 "realized_profit": profit-fee
-                }
-            
+                }            
             res.append(temp)
-        # print(df.iloc[0])
-        # print(res)
+            
         return res
 
     def get_klines(pair,bot,botid):
@@ -88,6 +104,7 @@ class BotReport(ClosedTrades):
                 except Exception as e:
                     return {}
         return {}
+
     def get_balance(self,bot,botid):
         config = json.loads(bot_config.get_bot_config(botid))
         if config['dryrun_config']['dryrun_enable'] == False:
@@ -117,8 +134,8 @@ class BotReport(ClosedTrades):
                 res = cls.find_by_id_all(botid)
                 df = pd.DataFrame(res)
                 cls.overall_profit = df['profit'].cumsum().iloc[-1]
-                cls.win = len(df[df['profit']>0])
-                cls.loss= len(df[df['profit']<0])
+                cls.win = cls.get_win_number(df)
+                cls.loss= cls.get_lose_number(df)
                 
                 cls.BotTotalProfitPerDay = cls.return_per_day(cls,data=df)
                 cls.balance= cls.get_balance(cls,bot,botid)
@@ -142,10 +159,6 @@ class BotReport(ClosedTrades):
                     return cls.final_result(cls)
                 return cls.final_result_overall(cls)
 
-
-            # print(cls.final_result(cls))
-                
-            # print('s')
         except Exception as e:
             print(f'exception in get_bot_reports : {e}')
 

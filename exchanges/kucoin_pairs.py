@@ -1,4 +1,3 @@
-from asyncio import futures
 
 
 futures_pairs = {
