@@ -165,6 +165,7 @@ class Bot_prop(Resource):
             return {"message": f"An error occurred inserting the bot.{e}"}, 500
 
         return bot.json(), 200
+
     @jwt_required()
     def delete(self, botid):
         bot = Bot_propModel.find_by_name(botid)
@@ -172,6 +173,7 @@ class Bot_prop(Resource):
             bot.delete_from_db()
 
         return {'message': 'bot deleted'}
+        
     @jwt_required()
     def put(self, botid):
         data = Bot_prop.parser.parse_args()

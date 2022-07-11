@@ -26,18 +26,10 @@ class UserRegister(Resource):
 
         user = UserModel(**data)
         user.save_to_db()
-
         return {"message": "User created successfully."}, 201
 
 class ReturnUser(Resource):
 
-
     @jwt_required()
     def get(self):
-
-
-
-        return {"data" :{"username": "front"}}, 200
-        
-
-        return {"user": "User not found"}, 400   
+        return {"data" :{"username": "front"}}, 200        

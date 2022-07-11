@@ -11,156 +11,157 @@ import requests
 container_network = "http://127.17.0.1:7001"
 
 class Commands(Resource):
-  parser = reqparse.RequestParser()
-  parser.add_argument('start',
-      required=True,
-      type = bool,
-      help="This field cannot be blank."
-  )
-  parser.add_argument('stop',
-      required=True,
-      type = bool,
-      help="This field cannot be blank."
-  )
-  parser.add_argument('stop_buy',
-      required=True,
-      type = bool,
-      help="This field cannot be blank."
-  )
-  parser.add_argument('restart',
-      required=True,
-      type = bool,
-      help="This field cannot be blank."
-  )  
-  @jwt_required()
-  def get(self, botid):
-      """
-      get all indicators
-      It is neccessary to send access token
-      ---
-      tags:
-      - indicators
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('start',
+        required=True,
+        type = bool,
+        help="This field cannot be blank."
+    )
+    parser.add_argument('stop',
+        required=True,
+        type = bool,
+        help="This field cannot be blank."
+    )
+    parser.add_argument('stop_buy',
+        required=True,
+        type = bool,
+        help="This field cannot be blank."
+    )
+    parser.add_argument('restart',
+        required=True,
+        type = bool,
+        help="This field cannot be blank."
+    )  
+    @jwt_required()
+    def get(self, botid):
+        """
+        get all indicators
+        It is neccessary to send access token
+        ---
+        tags:
+        - indicators
 
 
-      responses:          
-        200:
-          description: return all existed idicators
+        responses:          
+          200:
+            description: return all existed idicators
 
-        schema:
-          id: properties
-          properties:
-          category:
-            type: string
-            description: technical indicators category                  
-          function:
-            type: json
-            description: mathematical function which will apply on indicators
-          CandleNumber:
-            type: integer
-            description: it returns last indicators number    
-          returns:
-            type: indicator return value
-            description: it can be more than one element if it is one element shows real or inetegr and if it is more than one elements show return indicators
-          descrption:
-            type: string
-            description: it describe what is the indicator
-          params:
-            type: json
-            description: it is neccessary parameter for define a indicators and shows the default parameters 
-          suffix:
-            type: integer
-            description: for each indicator we need suffix because it can be more than one type of one indicator 
-                  
-                                
-
-                
-
-      """
-      ret={}
-      res=json.loads(bot_config.get_bot_commands(botid))
-      if res:  
-        ret['start'] = res['start']
-        ret['stop'] = res['stop']
-        ret['stop_buy'] = res['stop_buy']
-        ret['restart'] = res['restart']
-        # print(ret)
-        return ret , 200
-      else:
-        return {"message":"could not find commands settings"},201
-
-  @jwt_required()
-  def post(self, botid):
-
-      """
-      post indicators which is neccessary to define new strategy
-      It is neccessary to send access token
-      ---
-      tags:
-      - bot_config
-      parameters:
-        - in: path
-          name: botid
-          type: integer
-          required: true
-        - in: path
-          indicators: indicators
-          type: json
-          required: true
-
-      responses:
-        200:
-          description: indicators saved
           schema:
-            id: User
+            id: properties
             properties:
-              name:
-                type: string
-                description: bot name
+            category:
+              type: string
+              description: technical indicators category                  
+            function:
+              type: json
+              description: mathematical function which will apply on indicators
+            CandleNumber:
+              type: integer
+              description: it returns last indicators number    
+            returns:
+              type: indicator return value
+              description: it can be more than one element if it is one element shows real or inetegr and if it is more than one elements show return indicators
+            descrption:
+              type: string
+              description: it describe what is the indicator
+            params:
+              type: json
+              description: it is neccessary parameter for define a indicators and shows the default parameters 
+            suffix:
+              type: integer
+              description: for each indicator we need suffix because it can be more than one type of one indicator 
+                    
+                                  
 
-                
-
-      """
-      try:
-        bot = Bot_propModel.find_by_id(botid)
-        if bot:            
-          data = Commands.parser.parse_args()
-          # res=json.loads(bot_config.get_bot_commands(botid))
-          # print(data)
-          res = {}
-          if data:
-            res['start']= data['start']
-            res['stop']= data['stop']
-            res['stop_buy']= data['stop_buy']
-            res['restart']= data['restart']
-            # print((res['buy_open_conditions']))
-            bot_config.set_bot_commands(botid,**res)
-            if data['start'] == True:
-              endpoint = f"{container_network}/containers"
-              names = requests.get(endpoint)
-              # print(not f"b{botid}" in names.json()['container_names'])
-              if  (not f"b{botid}" in names.json()['container_names']):#(not bot.json()['container_name']) or
-                bot_config.setNewBot(False,bot.json()['id'],False)
-                endpoint = f"{container_network}/runnew/{bot.json()['id']}"
-                # print (endpoint)
-                response = requests.post(endpoint)
-                if response.json()['message']:
-                  print(bot.json())
-                  bot.container_name = bot.json()['id']
                   
-                  bot.save_to_db()
-                return {"message" : "action confirmed"}
-              else: 
-                return{"message" : "bot already started"}
-          else:
-            return {"message" : "action confirmed"}
-        else: 
 
-          return {"message": "there is no such bot name."}, 400
-      except Exception as e:
-        print(f'Exception in post commands :{e}')
+        """
+        ret={}
+        res=json.loads(bot_config.get_bot_commands(botid))
+        if res:  
+          ret['start'] = res['start']
+          ret['stop'] = res['stop']
+          ret['stop_buy'] = res['stop_buy']
+          ret['restart'] = res['restart']
+          # print(ret)
+          return ret , 200
+        else:
+          return {"message":"could not find commands settings"},201
+
+    @jwt_required()
+    def post(self, botid):
+
+        """
+        post indicators which is neccessary to define new strategy
+        It is neccessary to send access token
+        ---
+        tags:
+        - bot_config
+        parameters:
+          - in: path
+            name: botid
+            type: integer
+            required: true
+          - in: path
+            indicators: indicators
+            type: json
+            required: true
+
+        responses:
+          200:
+            description: indicators saved
+            schema:
+              id: User
+              properties:
+                name:
+                  type: string
+                  description: bot name
+
+                  
+
+        """
+        try:
+          bot = Bot_propModel.find_by_id(botid)
+          if bot:            
+            data = Commands.parser.parse_args()
+            # res=json.loads(bot_config.get_bot_commands(botid))
+            # print(data)
+            res = {}
+            if data:
+              res['start']= data['start']
+              res['stop']= data['stop']
+              res['stop_buy']= data['stop_buy']
+              res['restart']= data['restart']
+              # print((res['buy_open_conditions']))
+              bot_config.set_bot_commands(botid,**res)
+              if data['start'] == True:
+                endpoint = f"{container_network}/containers"
+                names = requests.get(endpoint)
+                # print(not f"b{botid}" in names.json()['container_names'])
+                if  (not f"b{botid}" in names.json()['container_names']):#(not bot.json()['container_name']) or
+                  bot_config.setNewBot(False,bot.json()['id'],False)
+                  endpoint = f"{container_network}/runnew/{bot.json()['id']}"
+                  # print (endpoint)
+                  response = requests.post(endpoint)
+                  if response.json()['message']:
+                    print(bot.json())
+                    bot.container_name = bot.json()['id']
+                    
+                    bot.save_to_db()
+                  return {"message" : "action confirmed"}
+                else: 
+                  return{"message" : "bot already started"}
+            else:
+              return {"message" : "action confirmed"}
+          else: 
+
+            return {"message": "there is no such bot name."}, 400
+        except Exception as e:
+          print(f'Exception in post commands :{e}')
 
 
-        # bot_config.save_to_file(**data)
+          # bot_config.save_to_file(**data)
         
 
 
@@ -223,12 +224,7 @@ class Strategy(Resource):
             description: it is neccessary parameter for define a indicators and shows the default parameters 
           suffix:
             type: integer
-            description: for each indicator we need suffix because it can be more than one type of one indicator 
-                  
-                                
-
-                
-
+            description: for each indicator we need suffix because it can be more than one type of one indicator                                                                 
       """
       ret={}
       res=json.loads(bot_config.get_bot_config(botid))
@@ -270,10 +266,7 @@ class Strategy(Resource):
                 type: string
                 description: bot name
 
-                
-
       """
-
 
       if Bot_propModel.find_by_id(botid):            
         data = Strategy.parser.parse_args()
@@ -616,44 +609,12 @@ class pair_whitelist(Resource):
                   
 
         """
-        # if Bot_propModel.find_by_name(name):
-        #     return {'message': "An item with name '{}' already exists.".format(name)}, 400
 
-        # data = Bot_prop.parser.parse_args()
-
-        # bot = Bot_propModel(name, **data)
-
-        # try:
-        #     bot.save_to_db()
-        # except:
-        #     return {"message": "An error occurred inserting the bot."}, 500
-
-        # return bot.json(), 201
     @jwt_required()
     def delete(self, botid):
       pass
-        # bot = Bot_propModel.find_by_name(name)
-        # if bot:
-        #     bot.delete_from_db()
 
-        # return {'message': 'bot deleted'}
     @jwt_required()
     def put(self, botid):
       pass
-        # data = Bot_prop.parser.parse_args()
 
-        # item = Bot_propModel.find_by_name(name)
-
-        # if item is None:
-        #     item = Bot_propModel(name, **data)
-        # else:
-        #     item.price = data['price']
-
-        # item.save_to_db()
-
-        # return item.json()
-
-
-# class BotsList(Resource):
-#     def get(self):
-#         return {'bot': [x.json() for x in Bot_propModel.query.all()]}

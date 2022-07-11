@@ -50,6 +50,7 @@ class Trades(db.Model):
         self.dynamic_stoploss = dynamic_stoploss
         self.strategy = strategy
         self.size = size
+
     def defaultconverter(self,o):
         if isinstance(o, datetime.datetime):
             return o.__str__()
@@ -174,6 +175,7 @@ class ClosedTrades(db.Model):
             "size" : self.o_size,
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
         }
+
     def json_time(self):
         return {
             "pair" : self.o_pair,
