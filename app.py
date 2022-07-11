@@ -1,15 +1,12 @@
 from datetime import timedelta
 from urllib.parse import  quote
 
-
 from flask import Flask, send_from_directory
 from flask_restful import Api
 from flask_jwt import JWT
 from flask_cors import CORS
 
-
-from flasgger import Swagger
-
+from swagger_config import swagger_config
 
 from security import authenticate, identity
 from resources.user import UserRegister,ReturnUser
@@ -31,43 +28,17 @@ app.config['DEBUG'] = True
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@localhost/bot_trades'% quote('ro0t!@#')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@mysql/bot_trades'% quote('ro0t!@#')
 
+swagger = swagger_config(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'sina12345678'
-api = Api(app)
-swagger_config = {
-    "headers": [
-    ],
-    "specs": [
-        {
-            "endpoint": 'bot',
-            "route": '/bot.json',
-            "rule_filter": lambda rule: True,  # all in
-            "model_filter": lambda tag: True,  # all in
-        }
-    ],
-    "static_url_path": "/flasgger_static",
-    # "static_folder": "static",  # must be set by user
-    "swagger_ui": True,
-    "specs_route": "/apidocs/"
-}
-
-swagger = Swagger(app,
-    template={
-        "info": {
-            "title": "backend api",
-            "version": "1.0",
-        },
-
-    },config=swagger_config
-)
-
-
-jwt = JWT(app, authenticate, identity)  # /auth
+app.secret_key = 'Ax365lprtGHy'
+jwt = JWT(app, authenticate, identity)  
 app.config['JWT_EXPIRATION_DELTA'] =timedelta(minutes=60)
 
 from db import db
 db.init_app(app)
+
+api = Api(app)
 
 
 api.add_resource(Store, '/store/<string:name>')
@@ -100,11 +71,9 @@ api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
 
-
     if app.config['DEBUG']:
         @app.before_first_request
         def create_tables():
             db.create_all()
 
-    app.run(host="0.0.0.0", port=7000)#for docker
-    # app.run(port=7002)#for local
+    app.run(host="0.0.0.0", port=7000)

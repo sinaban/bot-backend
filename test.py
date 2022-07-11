@@ -1,1 +1,0 @@
-{'buy_open_conditions': '((SLOWK#3<40)or(SLOWD#2<SLOWD#1)and(SLOPE_SLOWK#0>5.67)or(SLOPE_SLOWD#0>2.75))', 'sell_open_conditions': '{}', 'buy_close_conditions': '((SLOWK#3>40)or(SLOWD#2>SLOWD#1)and(SLOPE_SLOWK#0<5.67)or(SLOPE_SLOWD#0<2.75))', 'sell_close_conditions': '{}'}
