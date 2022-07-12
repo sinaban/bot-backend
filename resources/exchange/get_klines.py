@@ -1,10 +1,11 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-from models.bot_prop import Bot_propModel
-
+from models.exchanges.select_exchange import GetExchange
 
 class Klines(Resource):
+
+    
     parser = reqparse.RequestParser()
     parser.add_argument('pair',
         type=str,
@@ -58,33 +59,25 @@ class Klines(Resource):
             required: false
 
         responses:
-          200:
-            description: A single user item
-            schema:
-              id: User
-              properties:
-                pair:
-                  type: string
-                  description: like XBTUSDTM
-                  
-                klines:
-                  type: float
-                  description: time open high low close volume
-
-                  
-
+            200:
+                description: A single user item
+                schema:
+                id: User
+                properties:
+                    pair:
+                    type: string
+                    description: like XBTUSDTM
+                    
+                    klines:
+                    type: float
+                    description: time open high low close volume
+            501:
         """
-        bot = Bot_propModel.find_by_id(botid)
-        # return {'message': " '{}' ".format(bot.exchange_name)}
-        data = Klines.parser.parse_args()
-
-        if bot.exchange_name=='kucoin':
-            if bot.market_type == 'futures':            
-                from exchanges.kucoin_lib import kucoin_futures_ex
-                try:
-                    ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
-                    response = ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
-                    return {'pair': data['pair'] , 'FormalName' : response[0], 'klines' : response[1]} , 200
-                except Exception as e:
-                    return {'Exception': "{}".format(e)}, 201
-        return {'message': ''}, 201
+        try:
+            data = Klines.parser.parse_args()
+            ex = GetExchange(botid)
+            response = ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
+            return {'pair': data['pair'] , 'FormalName' : response[0], 'klines' : response[1]} , 200
+        except Exception as e :
+            print(f"{e}")
+            return {'message': 'bot not found'}, 501

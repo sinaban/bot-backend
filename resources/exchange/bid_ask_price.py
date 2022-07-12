@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 
-from models.bot_prop import Bot_propModel
+from models.exchanges.select_exchange import GetExchange
 
 
 class LastBidprice(Resource):
@@ -44,22 +44,19 @@ class LastBidprice(Resource):
                   description: 42553.0
                   
         """
-        bot = Bot_propModel.find_by_id(botid)
-        data = LastBidprice.parser.parse_args()
+        try:
+            data = LastBidprice.parser.parse_args()
+            ex = GetExchange(botid)
+            response = ex.get_realtimeticker(data['pair'])
+            return {'pair': data['pair'] , 'LastBidPrice' : response[0], 'FormalName' : response[1]} , 200
 
-        if bot.exchange_name=='kucoin':
-            if bot.market_type == 'futures':            
-                from exchanges.kucoin_lib import kucoin_futures_ex
-                try:
-                    ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
-                    response = ex.get_realtimeticker(data['pair'])
-                    return {'pair': data['pair'] , 'LastBidPrice' : response[0], 'FormalName' : response[1]} , 200
-                except Exception as e:
-                    return {'message': "{}".format(e)}, 201
-        return {'message': 'bot not found'}, 201
+        except Exception as e :
+            print(f"{e}")
+            return {'message': 'bot not found'}, 501
+
 
 class LastAskprice(Resource):
-    
+
     parser = reqparse.RequestParser()
     parser.add_argument('pair',
         type=str,
@@ -94,17 +91,12 @@ class LastAskprice(Resource):
                   type: float
                   description: 42553.0                  
         """
+        try:
+            data = LastAskprice.parser.parse_args()
+            ex = GetExchange(botid)
+            response = ex.get_realtimeticker_ASK(data['pair'])
+            return {'pair': data['pair'] , 'LastAskPrice' : response[0] , 'FormalName' : response[1]} , 200
 
-        bot = Bot_propModel.find_by_id(botid)
-        data = LastBidprice.parser.parse_args()
-
-        if bot.exchange_name=='kucoin':
-            if bot.market_type == 'futures':            
-                from exchanges.kucoin_lib import kucoin_futures_ex
-                try:
-                    ex = kucoin_futures_ex(bot.apikey,bot.apisecret,bot.apipass,drydrun=False)
-                    response = ex.get_realtimeticker_ASK(data['pair'])
-                    return {'pair': data['pair'] , 'LastAskPrice' : response[0] , 'FormalName' : response[1]} , 200
-                except Exception as e:
-                    return {'message': "{}".format(e)}, 201
-        return {'message': 'Item not found'}, 201
+        except Exception as e :
+            print(f"{e}")
+            return {'message': 'bot not found'}, 501

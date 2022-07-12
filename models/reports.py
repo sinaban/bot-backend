@@ -3,10 +3,9 @@ from models.trades import ClosedTrades
 from models.bot_prop import Bot_propModel
 import pandas as pd
 from models import bot_config
+from models.bot_validation import NoBotError,check_bot_exists
 import json
 
-class NoBotError(ValueError):
-    pass
 
 class NoWhiteListError(ValueError):
     pass
@@ -136,10 +135,7 @@ class BotReport(ClosedTrades):
     def check_is_pair_whitelist_empty(self,pair_whitelist):
         if not pair_whitelist:
             raise NoWhiteListError("pair white list is empty")
-
-    def check_bot_exists(self,bot):
-        if not bot:
-            raise NoBotError("this bot id does not exist")   
+ 
 
     def get_trades_data_from_db_convert(self,botid):     
         return pd.DataFrame(self.find_by_id_all(botid))
@@ -176,7 +172,7 @@ class BotReport(ClosedTrades):
     def get_bot_reports(cls,botid,perday=True):
         try:
             bot= Bot_propModel.find_by_id(botid)
-            cls.check_bot_exists(bot)
+            check_bot_exists(bot)
             cls.get_botname_and_botid(bot,botid)
             df = cls.get_trades_data_from_db_convert(botid)
             cls.calculate_profit_balance(df, bot, botid)

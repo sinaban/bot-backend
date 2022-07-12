@@ -1,6 +1,6 @@
 from db import db
 
-class Bot_propModel(db.Model):
+class BotPropModel(db.Model):
     __tablename__ = 'bots_prop'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -23,8 +23,14 @@ class Bot_propModel(db.Model):
 
 
     def json(self):
-        return {'name': self.name,'id':self.id, 'exchange_name': self.exchange_name,'apikey':self.apikey,'market type': self.market_type,
-        "container_name":self.container_name}
+        return {
+            'name': self.name,
+            'id':self.id,
+            'exchange_name': self.exchange_name,
+            'apikey':self.apikey,
+            'market type': self.market_type,
+            "container_name":self.container_name
+            }
 
     @classmethod
     def find_by_name(cls, name):

@@ -6,7 +6,7 @@ from models import bot_config
 from indicators import config_template
 from resources.bot_config import TempConfig
 
-class Bot_prop_byid(Resource):
+class BotPropById(Resource):
   
     @jwt_required()
     def get(self, botid):

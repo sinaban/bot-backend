@@ -1,16 +1,13 @@
-from urllib import response
 import ccxt 
 import pandas as pd
-import time 
 from kucoin_futures.client import Trade,Market
 from models import bot_config as myRedis  
-import logging
 import ccxt.base.exchange
 from exchanges.kucoin import kucoin_pairs
 from exchanges.exchange import Exchange
 
 
-class kucoin_futures_ex(Exchange):
+class KucoinFutures(Exchange):
 
     def __init__(self, apikey, apisecret, apipass, drydrun) -> None:
         super().__init__(apikey, apisecret, apipass, drydrun)
