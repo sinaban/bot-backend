@@ -1,5 +1,4 @@
 
-
 futures_pairs = {
    "XBTUSDTM" : "BTC/USDT",
    "ETHUSDTM" : "ETH/USDT",

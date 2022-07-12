@@ -6,30 +6,27 @@ from kucoin_futures.client import Trade,Market
 from models import bot_config as myRedis  
 import logging
 import ccxt.base.exchange
-from exchanges import kucoin_pairs
+from exchanges.kucoin import kucoin_pairs
+from exchanges.exchange import Exchange
 
 
-class kucoin_futures_ex():
-    
-    def __init__(self,apikey,apisecret,apipass,drydrun) -> None:
-        self.apikey=apikey
-        self.apisecret=apisecret
-        self.apipass=apipass
-        self.dryrun=drydrun
+class kucoin_futures_ex(Exchange):
+
+    def __init__(self, apikey, apisecret, apipass, drydrun) -> None:
+        super().__init__(apikey, apisecret, apipass, drydrun)
         self.exchange= ccxt.kucoin()
         self.exchange.options['defaultType']='futures'
-        self.timeframe = [1,5,15,30,60,120,240,480,720,1440,10080]
+        self.timeframe = [1,5,15,30,60,120,240,480,720,1440,10080]       
 
     def get_client(self):
         client = Trade(key=self.apikey, secret=self.apisecret, passphrase=self.apipass, is_sandbox=False, url='')
         return client
+
     def get_timefrmaes(self):
         return self.timeframe
 
-
     def get_realtimeticker(self,pair):
-        price=myRedis.getPrice(pair)
-        
+        price=myRedis.getPrice(pair)        
         return price ,  kucoin_pairs.futures_pairs[pair]
 
     def get_realtimeticker_ASK(self,pair):
@@ -37,26 +34,22 @@ class kucoin_futures_ex():
         return price,kucoin_pairs.futures_pairs[pair]
 
     def create_orderid(self,price,pair,size,side,lever):
-        pass #it must develope
-
+        pass 
 
     def cancel_orderId(self,orderId):
         client = self.get_client()
         response=client.cancel_order(orderId)  
         return response 
 
-
     def get_kline(self,pair,timeframe,begin_t=None, end_t=None):
         client = Market(url='https://api-futures.kucoin.com')
         klines = client.get_kline_data(pair,timeframe,begin_t,end_t)
-
         return kucoin_pairs.futures_pairs[pair], klines
     
     def get_balance(self,refrence) -> float:
         print('Fetching your balance:')
         response = self.exchange.fetch_balance({'type': 'futures', 'currency': refrence})
         return response['total'].get(refrence)
-
     
     def get_order_state(self,Oid,lotRatio):
         if self.dryrun==False:

@@ -1,7 +1,12 @@
-from security import authenticate, identity
 from resources.user import UserRegister,ReturnUser
 from resources.bot_prop import Bot_prop, BotsList,Bot_prop_byid
-from resources.exchange_data import OpenPositions,LastBidprice,LastAskprice,Klines,LastBalance,Timeframe
+
+from resources.exchange.bid_ask_price import LastBidprice,LastAskprice
+from resources.exchange.get_balances import LastBalance
+from resources.exchange.timeframe import Timeframe
+from resources.exchange.get_klines import Klines
+from resources.exchange.open_positions import OpenPositions
+
 from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands,TempIndicators
 from resources.trades import close_trades
 from resources.reports import BotOverallReports,BotReports
