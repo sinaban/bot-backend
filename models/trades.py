@@ -1,8 +1,9 @@
 from db import db
 import json
 import datetime
-from exchanges import kucoin_pairs
-from models.bot_prop import Bot_propModel
+
+from models.exchanges.kucoin import kucoin_pairs
+from models.bot_prop import BotPropModel
 
 class Trades(db.Model):
     __tablename__ = 'trades'
@@ -27,8 +28,6 @@ class Trades(db.Model):
     strategy = db.Column(db.String(50))
     size = db.Column(db.Float)
 
-    # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    # store = db.relationship('StoreModel')
 
     def __init__(self, pair, oid_close, oid_open,open_date,close_date,open_price,close_price,profit,amount,close_reason,is_open,symbol,exchange
     ,profit_percent,take_profit,dynamic_stoploss,strategy,size):
@@ -50,6 +49,8 @@ class Trades(db.Model):
         self.dynamic_stoploss = dynamic_stoploss
         self.strategy = strategy
         self.size = size
+
+
 
     def defaultconverter(self,o):
         if isinstance(o, datetime.datetime):
@@ -76,7 +77,6 @@ class Trades(db.Model):
             "strategy" : self.strategy, 
             "size" : self.size, 
             "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
-
         }
 
     @classmethod
@@ -119,10 +119,6 @@ class ClosedTrades(db.Model):
     o_close_reason = db.Column(db.String(50))
     o_size = db.Column(db.Float)
 
-
-    # store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
-    # store = db.relationship('StoreModel')
-
     def __init__(self, o_exchange,o_pair,o_symbol,o_side,o_order_id,o_id,o_price,o_amount,o_status,o_type,o_oid_close,o_oid_open
         ,o_open_date,o_close_date,o_open_price,o_close_price,o_take_profit,o_dynamic_stoploss,o_profit,o_profit_percent,o_strategy,o_close_reason,o_size):
         self.o_pair = o_pair
@@ -158,8 +154,8 @@ class ClosedTrades(db.Model):
             "pair" : self.o_pair,
             "oid_close" : self.o_oid_close,
             "oid_open" : self.o_oid_open, 
-            "open_date" : self.o_open_date, #(self.o_open_date,indent=4, sort_keys=True, default=str), 
-            "close_date" : self.o_close_date,#json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str), 
+            "open_date" : self.o_open_date, 
+            "close_date" : self.o_close_date,
             "open_price" : self.o_open_price, 
             "close_price" : self.o_close_price, 
             "profit" : self.o_profit, 
@@ -177,27 +173,11 @@ class ClosedTrades(db.Model):
         }
 
     def json_time(self):
-        return {
-            "pair" : self.o_pair,
-            "oid_close" : self.o_oid_close,
-            "oid_open" : self.o_oid_open, 
+        time = {
             "open_date" : json.dumps(self.o_open_date,indent=4, sort_keys=True, default=str), 
-            "close_date" : json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str), 
-            "open_price" : self.o_open_price, 
-            "close_price" : self.o_close_price, 
-            "profit" : self.o_profit, 
-            "amount" : self.o_amount, 
-            "side" : self.o_side,
-            "close_reason" : self.o_close_reason ,
-            "symbol" : self.o_symbol, 
-            "exchange" : self.o_exchange, 
-            "profit_percent" : self.o_profit_percent, 
-            "take_profit" : self.o_take_profit, 
-            "dynamic_stoploss" : self.o_dynamic_stoploss, 
-            "strategy" : self.o_strategy, 
-            "size" : self.o_size,
-            "FormalName" : kucoin_pairs.futures_pairs[self.o_pair]
+            "close_date" : json.dumps(self.o_close_date,indent=4, sort_keys=True, default=str),            
         }
+        return self.json().update(time)
 
     @classmethod
     def find_by_name(cls,strategy,limit):
@@ -205,14 +185,13 @@ class ClosedTrades(db.Model):
 
     @classmethod
     def find_by_id(cls,botid,limit):
-        bot = Bot_propModel.find_by_id(botid)
+        bot = BotPropModel.find_by_id(botid)
         return bot.json()['name'] ,cls.query.filter_by(o_strategy=botid).limit(limit)
 
     @classmethod
     def find_by_id_all(cls,botid):
-        bot = Bot_propModel.find_by_id(botid)
+        bot = BotPropModel.find_by_id(botid)
         return [row.json() for row in cls.query.filter_by(o_strategy=botid).all()]
-        # return {'name': self.name, 'items': [item.json() for item in self.items.all()]}
 
     def save_to_db(self):
         db.session.add(self)
