@@ -55,10 +55,8 @@ def setNewBot(occupy,botids,just_occupy):
      else:
           bot_list=[]
           o , bot_id= getNewBot()
-          if bot_id:
-               bot_list.append(bot_id)               
-               bot_list.append(botids)
-          else : 
+          bot_list.append(bot_id) 
+          if bot_id:                             
                bot_list.append(botids)
           redis_client.hset("new_bot", "occupy",json.dumps(occupy))
           redis_client.hset("new_bot", "bot_id",json.dumps(bot_list))
