@@ -1,6 +1,8 @@
 from db import db
 
+
 class BotPropModel(db.Model):
+    
     __tablename__ = 'bots_prop'
 
     id = db.Column(db.Integer, primary_key=True)

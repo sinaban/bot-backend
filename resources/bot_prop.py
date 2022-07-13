@@ -3,7 +3,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.bot_prop import Bot_propModel
 from models import bot_config
-from indicators import config_template
+from models.indicators import config_template
 from resources.bot_config import TempConfig
 
 class BotPropById(Resource):

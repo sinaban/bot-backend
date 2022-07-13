@@ -28,6 +28,12 @@ class Klines(Resource):
         help="end_time!"
     )
 
+    @classmethod
+    def collect_klines(cls, botid, data):
+        ex = GetExchange(botid)
+        return ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
+
+
     @jwt_required()
     def get(self, botid):
         """
@@ -75,8 +81,7 @@ class Klines(Resource):
         """
         try:
             data = Klines.parser.parse_args()
-            ex = GetExchange(botid)
-            response = ex.get_kline(data['pair'],data['timeframe'],data['start_time'],data['end_time'])
+            response = self.collect_klines(botid, data)
             return {'pair': data['pair'] , 'FormalName' : response[0], 'klines' : response[1]} , 200
         except Exception as e :
             print(f"{e}")

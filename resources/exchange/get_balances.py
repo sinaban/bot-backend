@@ -26,7 +26,7 @@ class LastBalance(Resource):
         if not balance:
             raise ValueError("Balance value is not available")
 
-    def get_balance_in_dryrun(self, botid):
+    def get_balance_in_dryrun(self, botid,data):
         try:
             self.is_balance_available(botid)
             balance = json.loads(balance)
@@ -34,7 +34,7 @@ class LastBalance(Resource):
         except ValueError as e:
             return {'message': f'balance is not available {e}'}, 501
 
-    def get_balance_from_exchange(self,botid):
+    def get_balance_from_exchange(self,botid,data):
         try:
             ex = GetExchange(botid)
             response = ex.get_overall_account(self.data['currency'])
@@ -43,12 +43,14 @@ class LastBalance(Resource):
             print(f"{e}")
             return {'message': f'Exception in getting data from Exchange {e}'}, 501
 
+    @classmethod
+    def get_balance(cls, botid, data):
+        if config_utils.is_bot_in_dryrun_mode(botid):
+            cls.get_balance_in_dryrun(botid,data)
+        else:
+            cls.get_balance_from_exchange(botid,data)
 
     @jwt_required()
     def get(self, botid):
-        self.data = LastBalance.parser.parse_args()
-
-        if config_utils.is_bot_in_dryrun_mode(botid):
-            self.get_balance_in_dryrun(botid)
-        else:
-            self.get_balance_from_exchange(botid)
+        data = LastBalance.parser.parse_args()
+        self.get_balance(self, botid, data)
