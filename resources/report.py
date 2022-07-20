@@ -2,11 +2,10 @@ from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models import bot_config
 from models.indicators.ta_indicators import Indicator, indicator_properties
-from models.indicators import config_template
-from models.bot_prop import Bot_propModel
+
 
 from resources.reports.generate_all_reports import BotReport
-import json,ast
+
 
 class BotReports(Resource):
     @jwt_required()
@@ -41,6 +40,7 @@ class BotReports(Resource):
         
         return {"message" : (res)}
 
+        
 class BotOverallReports(Resource):
 
     @jwt_required()

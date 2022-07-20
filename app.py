@@ -6,9 +6,10 @@ from flask_restful import Api
 from flask_jwt import JWT
 from flask_cors import CORS
 
-from swagger_config import swagger_config
+from swagger_config import config_swagger
 
 from endpoints import init_endpoints
+from security import authenticate, identity
 
 
 app = Flask(__name__)
@@ -19,12 +20,12 @@ app.config['DEBUG'] = True
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@localhost/bot_trades'% quote('ro0t!@#')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:%s@mysql/bot_trades'% quote('ro0t!@#')
 
-swagger = swagger_config(app)
+swagger = config_swagger(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Ax365lprtGHy'
 jwt = JWT(app, authenticate, identity)  
-app.config['JWT_EXPIRATION_DELTA'] =timedelta(minutes=60)
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(minutes=60)
 
 from db import db
 db.init_app(app)

@@ -30,15 +30,15 @@ class LastBalance(Resource):
         try:
             self.is_balance_available(botid)
             balance = json.loads(balance)
-            return {'currency': self.data['currency'] , 'latest balance' : balance} ,200
+            return {'currency': data['currency'] , 'latest balance' : balance} ,200
         except ValueError as e:
             return {'message': f'balance is not available {e}'}, 501
 
     def get_balance_from_exchange(self,botid,data):
         try:
             ex = GetExchange(botid)
-            response = ex.get_overall_account(self.data['currency'])
-            return {'currency': self.data['currency'] , 'latest balance' : response}, 200
+            response = ex.get_overall_account(data['currency'])
+            return {'currency': data['currency'] , 'latest balance' : response}, 200
         except Exception as e :
             print(f"{e}")
             return {'message': f'Exception in getting data from Exchange {e}'}, 501

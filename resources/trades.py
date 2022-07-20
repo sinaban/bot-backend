@@ -2,7 +2,7 @@ from email import parser
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.trades import Trades,ClosedTrades
-from exchanges import kucoin_pairs
+from models.exchanges.kucoin import kucoin_pairs
 
 class close_trades(Resource):
     

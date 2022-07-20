@@ -1,7 +1,7 @@
 from email import parser
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
-from models.bot_prop import Bot_propModel
+from models.bot_prop import BotPropModel
 from models import bot_config
 from models.indicators import config_template
 from resources.bot_config import TempConfig

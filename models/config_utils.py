@@ -1,5 +1,5 @@
 import json
-import bot_config
+from models import bot_config
 from models.bot_validation import is_config_exist,WrongConfigError
 
 

@@ -1,5 +1,5 @@
 from resources.user import UserRegister,ReturnUser
-from resources.bot_prop import Bot_prop, BotsList,Bot_prop_byid
+from resources.bot_prop import Bot_prop, BotsList,BotPropById
 
 from resources.exchange.bid_ask_price import LastBidprice,LastAskprice
 from resources.exchange.get_balances import LastBalance
@@ -9,11 +9,11 @@ from resources.exchange.open_positions import OpenPositions
 
 from resources.bot_config import pair_whitelist ,Indicators,TempConfig, Config ,Strategy, Commands,TempIndicators
 from resources.trades import close_trades
-from resources.reports import BotOverallReports,BotReports
+from resources.report import BotOverallReports,BotReports
 
 def init_endpoints(api):
 
-    api.add_resource(Bot_prop_byid, '/bot/<int:botid>')
+    api.add_resource(BotPropById, '/bot/<int:botid>')
     api.add_resource(Bot_prop, '/bot/<string:botname>')
     api.add_resource(BotReports, '/report/<int:botid>')
     api.add_resource(BotOverallReports, '/overallreport/<string:botids>')
