@@ -1,12 +1,7 @@
 from models.bot_prop import BotPropModel
 from models import bot_config
+from exceptions.bot_exceptions import WrongConfigError,NoBotError
 
-
-class WrongConfigError(RuntimeError):
-    pass
-
-class NoBotError(ValueError):
-    pass
 
 def check_bot_exists(bot):
     if not bot:

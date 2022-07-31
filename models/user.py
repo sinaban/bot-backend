@@ -1,4 +1,6 @@
 from db import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class UserModel(db.Model):
     __tablename__ = 'user'
@@ -9,7 +11,7 @@ class UserModel(db.Model):
 
     def __init__(self, username, password):
         self.username = username
-        self.password = password
+        self.password = self._generate_password_hash(password) 
 
     def save_to_db(self):
         db.session.add(self)
@@ -22,3 +24,7 @@ class UserModel(db.Model):
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
+
+    @staticmethod
+    def _generate_password_hash(password_plain: str):
+        return generate_password_hash(password_plain)

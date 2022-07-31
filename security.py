@@ -1,4 +1,4 @@
-from werkzeug.security import safe_str_cmp
+from werkzeug.security import safe_str_cmp, generate_password_hash, check_password_hash
 from models.user import UserModel
 
 

@@ -1,8 +1,11 @@
 import redis
 import json
 
+from exceptions.pair_exceptions import NoPriceFound, NoWhiteListError, NoConfigFoundError
+
 redis_client = redis.Redis(
-     host= 'cache', #for docker
+     # host= 'cache', #for docker
+     host= 'localhost', #for docker
      port= '6379',
      db=0)
 
@@ -15,6 +18,18 @@ def save_to_file(**kwargs):
      f.write(str(kwargs))
      f.close()
 
+def check_and_get_price_ready(pair: str,price_type: str):
+     price = redis_client.hget(pair, price_type)
+     if not price:
+          raise NoPriceFound("Redis does not return price")
+     return price
+
+def ckeck_and_convert_price_from_binary(pair: str, price_type: str):
+     price = check_and_get_price_ready(pair, price_type)
+
+def get_price_with_type(pair: str,price_type: str):
+     return check_and_get_price_ready(pair, price_type).decode()
+     
 def updatePrice(pair, price) -> None:
      redis_client.hset(pair, _bidPrice, str(price))
 
@@ -22,30 +37,33 @@ def updateAskPrice(pair, price) -> None:
      redis_client.hset(pair, _askPrice, str(price))
 
 def getPrice(pair) -> float:
-     price = redis_client.hget(pair, _bidPrice)
-     price = price.decode()
-     if price is not None:
-          return (float)(price)
-     return None
-
+     return get_price_with_type(pair, _bidPrice)
 
 def getAskPrice(pair) -> float:
-     price = redis_client.hget(pair, _askPrice)
-     price = price.decode()
-     if price is not None:
-          return (float)(price)
-     return None
+     return get_price_with_type(pair, _askPrice)
+
+def check_and_get_bot_configs(botid):
+     config = redis_client.hget("bots:config",botid)
+     if not config:
+          raise NoConfigFoundError(f"could not find config for botid {botid}")
+     return config
+      
+
+def check_and_get_pair_whitelist(botid) -> dict:
+     pairList = json.loads(check_and_get_bot_configs(botid))
+     print(f"pair white list = {pairList}")
+     if not 'pair_whitelist' in pairList.keys():
+          raise NoWhiteListError("could not get whitelist")
+     return pairList['pair_whitelist']
+
 
 def get_pair_whitelist(botid) -> dict:
-     pairList = json.loads(redis_client.hget("bots:config",botid))
-     if pairList['pair_whitelist'] is not None:
-          return pairList['pair_whitelist']
-     return None
+     return check_and_get_pair_whitelist(botid)
 
 def set_indicators(botname) -> dict:
      redis_client.hmset()
      pairList = json.loads(redis_client.get('bots'))
-     if pairList[botname] is not None:
+     if pairList[botname]:
           return pairList[botname]
      return None
 
@@ -67,8 +85,7 @@ def getNewBot() :
      return json.loads(occupy),json.loads(botids)
 
 def get_bot_config(botid) -> dict :
-     resp = redis_client.hget("bots:config",botid)     
-     return resp
+     return check_and_get_bot_configs(botid)     
 
 def set_bot_config(botid,**kwargs) -> bool :
      resp = redis_client.hset("bots:config",botid,json.dumps(kwargs))     
@@ -103,6 +120,7 @@ def get_bot_balanceWallet(botid) -> bool :
      
 #debug mode
 if __name__ == "__main__":
-     updatePrice('BCHUSDTM', 1839.383)
-     getPrice('BCHUSDTM')
-     getAskPrice('BCHUSDTM')
+     # updatePrice('BCHUSDTM', 1839.383)
+     print(get_pair_whitelist("5"))
+     # getPrice('BCHUSDTM')
+     # getAskPrice('SOLUSDTM')

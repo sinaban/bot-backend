@@ -11,45 +11,6 @@ commands={
 
 config ={
     "pair_whitelist": {
-        "ADAUSDTM":{
-            "formal_name":"ADA/USDT",
-            "lotRatio": 0.1,
-            "size":2,
-            "long_sl":1,
-            "short_sl":1,
-            "volatility_ratio":0.0062,
-            "atr_slope_ratio":0.0007 
-
-        },
-        "BNBUSDTM":{
-            "formal_name":"BNB/USDT",
-            "lotRatio": 100,
-            "size":4,
-            "long_sl":1,
-            "short_sl":1,
-            "volatility_ratio":0.009,
-            "atr_slope_ratio":0.1
-        }, 
- 
-        "XBTUSDTM":{
-            "formal_name":"BTC/USDT",
-            "lotRatio": 1000,
-            "size":1,
-            "long_sl":1,
-            "short_sl":1,
-            "volatility_ratio":955,
-            "atr_slope_ratio":0.9
-        },
-        "ETHUSDTM":{
-            "formal_name":"ETH/USDT",
-            "lotRatio": 100,
-            "size":1,
-            "long_sl":1,
-            "short_sl":1,
-            "volatility_ratio":100,
-            "atr_slope_ratio":0.5
-				
-        },
 
         "SOLUSDTM":{
             "formal_name":"SOL/USDT",
